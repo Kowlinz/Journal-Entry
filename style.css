@@ -1,0 +1,71 @@
+/* --- GENERAL --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { 
+    font-family: 'Segoe UI', 'Roboto', Helvetica, Arial, sans-serif; 
+    background-color: #f4f6f8; 
+    color: #444; 
+    line-height: 1.5;
+}
+
+/* --- HEADER --- */
+.global-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; height: 60px;
+    background-color: #0091ea; color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
+    position: sticky; top: 0; z-index: 1000;
+}
+.header-left { display: flex; align-items: center; height: 100%; gap: 15px; }
+.menu-icon { font-size: 1.4rem; cursor: pointer; color: #fff; padding: 5px; }
+.brand-container { display: flex; align-items: center; margin-right: 15px; }
+.brand-logo-img { font-size: 1.6rem; margin-right: 8px; }
+.brand-name { font-size: 1.4rem; font-weight: 700; text-transform: lowercase; letter-spacing: 0.5px; }
+.tm-symbol { font-size: 0.6rem; vertical-align: super; }
+
+/* NAV BUTTONS */
+.nav-btn {
+    display: flex; align-items: center; 
+    background-color: #0277bd; color: #fff;
+    padding: 8px 14px; margin-right: 4px; border-radius: 4px;
+    font-size: 0.85rem; font-weight: 600; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; height: 36px;
+}
+.nav-btn:hover { background-color: #01579b; }
+.nav-btn i { margin-right: 8px; font-size: 1rem; }
+.badge {
+    background-color: #ff3d00; color: white; font-size: 0.7rem; font-weight: bold;
+    padding: 2px 6px; border-radius: 10px; margin-left: 6px; 
+    position: relative; top: -1px;
+}
+
+/* HEADER RIGHT */
+.header-right { display: flex; align-items: center; gap: 12px; }
+.icon-btn {
+    width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;
+    cursor: pointer; border-radius: 50%; font-size: 1.2rem; color: #fff;
+    transition: background 0.2s;
+}
+.icon-btn:hover { background-color: rgba(255,255,255,0.2); }
+.user-profile-circle {
+    width: 35px; height: 35px; background-color: #fff; color: #0091ea;
+    border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    font-size: 1.8rem; cursor: pointer; margin-left: 5px;
+}
+
+/* --- SUB HEADER --- */
+.sub-header { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 25px 30px 15px 30px; 
+}
+.page-title { 
+    font-size: 1.5rem; font-weight: 700; color: #333; 
+    text-transform: uppercase; letter-spacing: 1px;
+}
+.close-btn-container { 
+    display: flex; flex-direction: column; align-items: center; 
+    cursor: pointer; color: #7f8c8d; text-decoration: none;
+    transition: color 0.2s;
+}
+.close-btn-container:hover { color: #e74c3c; }
+.close-icon-circle { border: 2px solid currentColor; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-bottom: 2px;}
+.close-text { font-size: 0.7rem; font-weight: 700; }
