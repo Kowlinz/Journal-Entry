@@ -10,71 +10,357 @@
 <body>
 
 <header class="global-header">
-        <div class="header-left">
-            <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
-            
-            <div class="brand-container">
-                <div class="brand-logo-img"></div> <div class="brand-name">winnolas<span class="tm-symbol">&trade;</span></div>
-            </div>
-
-            <div class="nav-btn">
-                <i class="fa-solid fa-house"></i> AGENCY
-            </div>
-            <div class="nav-btn">
-                <i class="fa-solid fa-clock-rotate-left"></i> RECENT TABS
-                <!-- <span class="badge"></span> -->
-            </div>
-            <div class="nav-btn">
-                <i class="fa-regular fa-circle-user"></i> JOHN DOE
-            </div>
-        </div>
-
-        <div class="header-right">
-            <div class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
-            
-            <div class="icon-btn" style="position: relative;">
-                <i class="fa-regular fa-bell"></i>
-                <!-- <span class="badge" style="position: absolute; top: 2px; right: 2px;"></span> -->
-            </div>
-
-            <div class="user-profile-circle">
-                <i class="fa-solid fa-user-circle"></i>
-            </div>
-        </div>
-    </header>
-
-    <div class="sub-header">
-        <div class="page-title">Journal Entry</div>
-
-            <div class="report-btn-container">
-                <div class="report-icon-circle"><i class="fa-solid fa-file-lines"></i></div>
-                <span class="report-text">Reports</span>
-            </div>
-
-            <div class="new-btn-container">
-                <div class="new-icon-circle"><i class="fa-solid fa-plus"></i></div>
-                <span class="new-text">New</span>
-            </div>
-
-            <div class="summarize-btn-container">
-                <div class="summarize-icon-circle"><i class="fa-solid fa-list"></i></div>
-                <span class="summarize-text">Summarize</span>
-            </div>
-
-            <div class="end-btn-container">
-                <div class="end-icon-circle"><i class="fa-solid fa-power-off"></i></div>
-                <span class="end-text">End Day</span>
-            </div>
-
-            <div class="close-btn-container">
-                <div class="close-icon-circle"><i class="fa-solid fa-xmark"></i></div>
-                <span class="close-text">Close</span>
-            </div>
-
+    <div class="header-left">
+        <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        <div class="brand-container"><div class="brand-name">winnolas<span class="tm-symbol">&trade;</span></div></div>
+        <div class="nav-btn"><i class="fa-solid fa-house"></i>AGENCY</div>
+        <div class="nav-btn"><i class="fa-solid fa-clock-rotate-left"></i>RECENT TABS</div>
+        <div class="nav-btn"><i class="fa-regular fa-circle-user"></i>JOHN DOE</div>
     </div>
+    <div class="header-right">
+        <div class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+        <div class="icon-btn" style="position: relative;"><i class="fa-regular fa-bell"></i></div>
+        <div class="user-profile-circle"><i class="fa-solid fa-user-circle"></i></div>
+    </div>
+</header>
 
-    <script src="script.js"></script>
+<div class="page-header-strip">
+    <h1 class="page-title">JOURNAL ENTRY</h1>
+    <div class="header-actions-group">
+        <a href="report.html" target="_blank" style="text-decoration: none;">
+            <div class="action-btn">
+                <div class="action-circle"><i class="fa-solid fa-file-lines"></i></div>
+                <span class="action-label">Reports</span>
+            </div>
+        </a>
+        <a href="new-ticket.html" style="text-decoration: none;">
+            <div class="action-btn"><div class="action-circle"><i class="fa-solid fa-plus"></i></div>
+            <span class="action-label">New Ticket</span></div>
+        </a>
+        <a href="proofsheet.html" style="text-decoration: none;">
+            <div class="action-btn">
+                <div class="action-circle"><i class="fa-solid fa-list"></i></div>
+                <span class="action-label">Summarize</span>
+            </div>
+        </a>
+        <div class="action-btn"><div class="action-circle"><i class="fa-solid fa-power-off"></i></div><span class="action-label">End Day</span></div>
+        <div class="action-btn close-btn"><div class="action-circle"><i class="fa-solid fa-xmark"></i></div><span class="action-label">Close</span></div>
+    </div>
+</div>
+
+<main class="main-wrapper">
+    <div class="content-card">
+        <div class="card-row-header">
+            
+            <div class="toolbar-left" style="display: flex; align-items: center; gap: 10px;">
+                <div class="date-input-wrapper">
+                    <input type="date" id="filter-date" class="clean-date-input">
+                    <i id="btn-date-clear" class="fa-solid fa-xmark date-clear-icon"></i>
+                </div>
+                <button id="btn-current" class="btn-current-day">Today</button>
+            </div>
+
+            <div class="toolbar-right">
+                <div class="search-ui-wrapper">
+                    
+                    <button class="btn-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    
+                    <div class="search-input-container">
+                        <input type="text" id="filter-search" class="clean-search-input" placeholder="Search Here...">
+                        <i id="btn-search-clear" class="fa-solid fa-xmark search-clear-btn"></i>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row-divider"></div>
+        <div id="tickets-container-list" style="padding: 20px;"></div>
+        <div id="main-empty-state" class="empty-state-container">
+            <p class="empty-state-text">No Journal Entry found</p>
+        </div>
+    </div>
+</main>
+
+<div id="globalModal" class="custom-modal-overlay">
+    <div class="custom-modal-box">
+        <div class="modal-icon-circle">
+            <i id="modalIcon" class="fa-solid fa-check"></i>
+        </div>
+        <h3 id="modalTitle" class="modal-title">Title</h3>
+        <p id="modalDesc" class="modal-desc">Description text goes here.</p>
+        <div class="modal-actions">
+            <button id="modalCancel" class="btn-modal-base btn-modal-cancel">Cancel</button>
+            <button id="modalConfirm" class="btn-modal-base btn-modal-confirm">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+        localStorage.removeItem('winnolas_editing_id'); 
+        
+        // Load initial list
+        loadSavedTickets();
+
+        // --- SEARCH BAR LOGIC ---
+        const searchInput = document.getElementById('filter-search');
+        const clearBtn = document.getElementById('btn-search-clear');
+
+        // 1. Listen for typing (Only triggers filter now, doesn't hide X)
+        searchInput.addEventListener('keyup', function() {
+            loadSavedTickets(); 
+        });
+
+        // 2. Click X to Clear
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';         // Clear text
+            // Note: We do NOT hide the button anymore
+            loadSavedTickets();             // Reset list
+        });
+        
+        // 3. Close menus on outside click
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.ticket-menu-container')) {
+                document.querySelectorAll('.ticket-dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        // --- DATE FILTER LOGIC ---
+        const dateInput = document.getElementById('filter-date');
+        const currentDayBtn = document.getElementById('btn-current');
+        const dateClearIcon = document.getElementById('btn-date-clear');
+
+        // Set date and filter
+        dateInput.addEventListener('change', function() {
+            loadSavedTickets();
+        });
+
+        // Current Day button
+        currentDayBtn.addEventListener('click', function() {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+            loadSavedTickets();
+        });
+
+        // Clear Date button (X icon inside picker)
+        dateClearIcon.addEventListener('click', function() {
+            dateInput.value = '';
+            loadSavedTickets();
+        });
+    });
+
+    // --- GENERIC MODAL FUNCTION ---
+    function showModal({ type, title, message, onConfirm }) {
+        const modal = document.getElementById('globalModal');
+        const box = modal.querySelector('.custom-modal-box');
+        const icon = document.getElementById('modalIcon');
+        const titleEl = document.getElementById('modalTitle');
+        const descEl = document.getElementById('modalDesc');
+        const confirmBtn = document.getElementById('modalConfirm');
+        const cancelBtn = document.getElementById('modalCancel');
+
+        // Reset Classes
+        box.classList.remove('modal-success', 'modal-danger', 'modal-warning');
+        cancelBtn.style.display = "block"; 
+
+        // Setup Type
+        if (type === 'danger') {
+            box.classList.add('modal-danger');
+            icon.className = "fa-solid fa-trash-can";
+            confirmBtn.textContent = "Delete";
+        } else if (type === 'warning') {
+            box.classList.add('modal-warning');
+            icon.className = "fa-solid fa-circle-exclamation";
+            confirmBtn.textContent = "OK";
+            cancelBtn.style.display = "none"; 
+        } else {
+            box.classList.add('modal-success');
+            icon.className = "fa-solid fa-check";
+            confirmBtn.textContent = "Confirm";
+        }
+
+        // Set Content
+        titleEl.textContent = title;
+        descEl.innerHTML = message; 
+        modal.style.display = "flex";
+
+        // Handle Actions (Clone to reset listeners)
+        const newConfirm = confirmBtn.cloneNode(true);
+        const newCancel = cancelBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirm, confirmBtn);
+        cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+
+        newConfirm.addEventListener('click', () => {
+            if(onConfirm) onConfirm();
+            modal.style.display = "none";
+        });
+
+        newCancel.addEventListener('click', () => {
+            modal.style.display = "none";
+        });
+    }
+
+    function deleteTicket(ticketId) {
+        showModal({
+            type: 'danger',
+            title: 'Delete Ticket?',
+            message: `Are you sure you want to delete <b>Ticket ${ticketId}</b>? This cannot be undone.`,
+            onConfirm: () => {
+                let allTickets = JSON.parse(localStorage.getItem('winnolas_tickets')) || [];
+                allTickets = allTickets.filter(t => t.id !== ticketId);
+                localStorage.setItem('winnolas_tickets', JSON.stringify(allTickets));
+                loadSavedTickets();
+            }
+        });
+    }
+
+    // --- UPDATED: LOAD TICKETS (Now includes Search Logic) ---
+    function loadSavedTickets() {
+        const container = document.getElementById('tickets-container-list');
+        const emptyState = document.getElementById('main-empty-state');
+        
+        // 1. Get Filter Values
+        const searchVal = document.getElementById('filter-search').value.toLowerCase();
+        const dateVal = document.getElementById('filter-date').value;
+        
+        // 2. Get Data
+        const allTickets = JSON.parse(localStorage.getItem('winnolas_tickets')) || [];
+        
+        console.log('Date filter value:', dateVal);
+        console.log('All tickets:', allTickets);
+        
+        // 3. Filter Data
+        const filteredTickets = allTickets.filter(ticket => {
+            // Search filter
+            const matchesSearch = !searchVal || 
+                ticket.id.toLowerCase().includes(searchVal) || 
+                ticket.entries.some(e => e.account.toLowerCase().includes(searchVal));
+            
+            // Date filter
+            const matchesDate = !dateVal || ticket.date === dateVal;
+            
+            console.log(`Ticket ${ticket.id}: date="${ticket.date}", filter="${dateVal}", matches=${matchesDate}`);
+            
+            return matchesSearch && matchesDate;
+        });
+
+        console.log('Filtered tickets:', filteredTickets);
+
+        container.innerHTML = "";
+
+        // 4. Render
+        if (filteredTickets.length === 0) {
+            emptyState.style.display = "flex";
+            container.style.display = "none";
+        } else {
+            emptyState.style.display = "none";
+            container.style.display = "block";
+            
+            filteredTickets.reverse().forEach(ticket => {
+                container.innerHTML += createTicketCard(ticket);
+            });
+        }
+    }
+
+    function toggleTicket(ticketId) {
+        const body = document.getElementById(`body-${ticketId}`);
+        const header = document.getElementById(`header-${ticketId}`);
+        
+        if (body.style.display === "none") {
+            body.style.display = "block"; 
+            header.classList.add("expanded"); 
+        } else {
+            body.style.display = "none"; 
+            header.classList.remove("expanded"); 
+        }
+    }
+
+    function toggleMenu(event, ticketId) {
+        event.stopPropagation(); 
+        document.querySelectorAll('.ticket-dropdown').forEach(d => { 
+            if (d.id !== `menu-${ticketId}`) d.classList.remove('show'); 
+        });
+        document.getElementById(`menu-${ticketId}`).classList.toggle('show');
+    }
+
+    function editTicket(ticketId) {
+        localStorage.setItem('winnolas_editing_id', ticketId);
+        window.location.href = 'new-ticket.html';
+    }
+
+    function createTicketCard(ticket) {
+        let rowsHTML = "";
+        ticket.entries.forEach(entry => {
+            const drVal = entry.dr > 0 ? entry.dr.toLocaleString('en-US', {minimumFractionDigits: 2}) : "0.00";
+            const crVal = entry.cr > 0 ? entry.cr.toLocaleString('en-US', {minimumFractionDigits: 2}) : "0.00";
+            rowsHTML += `
+                <div class="card-entry-row">
+                    <div class="card-entry-details">
+                        <div class="card-acc-title">${entry.account}</div>
+                        <div class="card-acc-bread">${entry.breadcrumb}</div>
+                    </div>
+                    <div class="card-values">
+                        <div class="card-val">${drVal}</div>
+                        <div class="card-val">${crVal}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // Add default values if totalDr or totalCr are missing
+        const totalDr = ticket.totalDr || 0;
+        const totalCr = ticket.totalCr || 0;
+
+        const isBalanced = Math.abs(totalDr - totalCr) < 0.01;
+        const statusText = isBalanced ? "Sub Total (Balanced)" : "Sub Total (Unbalanced)";
+        const statusClass = isBalanced ? "status-balanced" : "status-unbalanced"; 
+        const valClass = isBalanced ? "val-balanced" : "val-unbalanced";
+        const headerTextClass = isBalanced ? "balanced" : "unbalanced";
+
+        return `
+            <div class="saved-ticket-card">
+                <div id="header-${ticket.id}" class="ticket-card-header" onclick="toggleTicket('${ticket.id}')">
+                    <div class="ticket-id-title ticket-id-text ${headerTextClass}">Ticket No: ${ticket.id}</div>
+                    <div class="ticket-menu-container">
+                        <div class="kebab-btn" onclick="toggleMenu(event, '${ticket.id}')">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                        <div id="menu-${ticket.id}" class="ticket-dropdown">
+                            <div class="menu-item" onclick="editTicket('${ticket.id}')">
+                                <i class="fa-regular fa-pen-to-square"></i> Edit
+                            </div>
+                            <div class="menu-item delete-opt" onclick="deleteTicket('${ticket.id}')">
+                                <i class="fa-regular fa-trash-can"></i> Delete
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="body-${ticket.id}" style="display: none;">
+                    <div class="card-table-header">
+                        <div>Account Title</div>
+                        <div style="display:flex; gap: 60px; margin-right: 20px;">
+                            <div style="width: 100px; text-align: right;">Debit</div>
+                            <div style="width: 100px; text-align: right;">Credit</div>
+                        </div>
+                    </div>
+                    ${rowsHTML}
+                    <div class="card-footer">
+                        <div class="footer-status ${statusClass}">${statusText}</div>
+                        <div class="footer-values">
+                            <div class="footer-val ${valClass}">${totalDr.toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
+                            <div class="footer-val ${valClass}">${totalCr.toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+</script>
 
 </body>
 </html>

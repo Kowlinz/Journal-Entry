@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winnolas - Proofsheet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="global-header">
+    <div class="header-left">
+        <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        <div class="brand-container"><div class="brand-name">winnolas<span class="tm-symbol">&trade;</span></div></div>
+        <div class="nav-btn"><i class="fa-solid fa-house"></i>AGENCY</div>
+        <div class="nav-btn"><i class="fa-solid fa-clock-rotate-left"></i>RECENT TABS</div>
+        <div class="nav-btn"><i class="fa-regular fa-circle-user"></i>JOHN DOE</div>
+    </div>
+    <div class="header-right">
+        <div class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+        <div class="icon-btn" style="position: relative;"><i class="fa-regular fa-bell"></i></div>
+        <div class="user-profile-circle"><i class="fa-solid fa-user-circle"></i></div>
+    </div>
+</header>
+
+<div class="page-header-strip">
+    <h1 class="page-title" id="proof-page-title">PROOFSHEET - LOADING...</h1>
+    
+    <div class="header-actions-group">
+        <div class="action-btn">
+            <div class="action-circle"><i class="fa-solid fa-file-lines"></i></div>
+            <span class="action-label">Report</span>
+        </div>
+        
+        <div class="action-btn">
+            <div class="action-circle"><i class="fa-solid fa-paper-plane"></i></div>
+            <span class="action-label">Post</span>
+        </div>
+
+        <div class="action-btn">
+            <div class="action-circle"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+            <span class="action-label" style="text-align: center; line-height: 1.1;">Financial<br>Statement</span>
+        </div>
+
+        <a href="index.html" style="text-decoration: none;">
+            <div class="action-btn close-btn">
+                <div class="action-circle"><i class="fa-solid fa-xmark"></i></div>
+                <span class="action-label">Close</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<main class="main-wrapper">
+    
+    <div class="proof-table-container">
+        <div class="proof-table-header">
+            <div style="flex:1;">Account Title</div>
+            <div style="display:flex; gap: 60px; margin-right: 20px;">
+                <div style="width: 100px; text-align: right;">Debit</div>
+                <div style="width: 100px; text-align: right;">Credit</div>
+            </div>
+        </div>
+
+        <div id="proofsheet-rows"></div>
+
+        <div class="proof-footer">
+            <div id="proof-status-text" class="proof-status">Sub Total (Calculating...)</div>
+            <div class="proof-col-values">
+                <div id="proof-total-dr" class="proof-val-total">0.00</div>
+                <div id="proof-total-cr" class="proof-val-total">0.00</div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="proof-empty-state" class="empty-state-container" style="display: none; padding: 50px;">
+        <p class="empty-state-text">No transactions found.</p>
+    </div>
+
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        generateProofsheet();
+    });
+
+    function generateProofsheet() {
+        const rowsContainer = document.getElementById('proofsheet-rows');
+        const emptyState = document.getElementById('proof-empty-state');
+        const pageTitle = document.getElementById('proof-page-title'); // Targeted H1
+        const statusText = document.getElementById('proof-status-text');
+        const totalDrEl = document.getElementById('proof-total-dr');
+        const totalCrEl = document.getElementById('proof-total-cr');
+
+        // 1. GET ALL TICKETS
+        const allTickets = JSON.parse(localStorage.getItem('winnolas_tickets')) || [];
+        
+        let targetDate = "";
+
+        // 2. FIND MOST RECENT DATE
+        if (allTickets.length > 0) {
+            // Sort by Date Descending
+            const sorted = allTickets.sort((a,b) => {
+                return new Date(b.date) - new Date(a.date);
+            });
+            targetDate = sorted[0].date;
+        } else {
+            const now = new Date();
+            targetDate = now.toISOString().split('T')[0];
+        }
+
+        // UPDATE TITLE with Date
+        pageTitle.textContent = `PROOFSHEET - (${targetDate})`;
+
+        // 3. FILTER TICKETS
+        const dailyTickets = allTickets.filter(t => t.date === targetDate);
+
+        if (dailyTickets.length === 0) {
+            rowsContainer.style.display = 'none';
+            emptyState.style.display = 'flex';
+            statusText.textContent = "Sub Total (Balanced)";
+            statusText.className = "proof-status status-balanced";
+            return;
+        }
+
+        // 4. FLATTEN ENTRIES
+        let allEntries = [];
+        dailyTickets.forEach(ticket => {
+            ticket.entries.forEach(entry => {
+                allEntries.push(entry);
+            });
+        });
+
+        // 5. RENDER ROWS & CALC TOTALS
+        let totalDr = 0;
+        let totalCr = 0;
+        let html = "";
+
+        allEntries.forEach(entry => {
+            totalDr += entry.dr;
+            totalCr += entry.cr;
+
+            const drDisplay = entry.dr > 0 ? entry.dr.toLocaleString('en-US', {minimumFractionDigits: 2}) : "0.00";
+            const crDisplay = entry.cr > 0 ? entry.cr.toLocaleString('en-US', {minimumFractionDigits: 2}) : "0.00";
+
+            html += `
+                <div class="proof-row">
+                    <div class="proof-col-acc">
+                        <div class="proof-acc-name">${entry.account}</div>
+                        <div class="proof-acc-bread">${entry.breadcrumb}</div>
+                    </div>
+                    <div class="proof-col-values">
+                        <div class="proof-val">${drDisplay}</div>
+                        <div class="proof-val">${crDisplay}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        rowsContainer.innerHTML = html;
+        totalDrEl.textContent = totalDr.toLocaleString('en-US', {minimumFractionDigits: 2});
+        totalCrEl.textContent = totalCr.toLocaleString('en-US', {minimumFractionDigits: 2});
+
+        // 6. BALANCE CHECK
+        const isBalanced = Math.abs(totalDr - totalCr) < 0.01;
+        if (isBalanced) {
+            statusText.textContent = "Sub Total (Balanced)";
+            statusText.className = "proof-status status-balanced";
+            totalDrEl.className = "proof-val-total val-balanced";
+            totalCrEl.className = "proof-val-total val-balanced";
+        } else {
+            statusText.textContent = "Sub Total (Unbalanced)";
+            statusText.className = "proof-status status-unbalanced";
+            totalDrEl.className = "proof-val-total val-unbalanced";
+            totalCrEl.className = "proof-val-total val-unbalanced";
+        }
+    }
+</script>
+
+</body>
+</html>

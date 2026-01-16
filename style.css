@@ -5,13 +5,17 @@ body {
     background-color: #f4f6f8; 
     color: #444; 
     line-height: 1.5;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* --- HEADER --- */
 .global-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 20px; height: 60px;
-    background-color: #0091ea; color: #fff;
+    background-color: #0091ea; 
+    color: #fff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
     position: sticky; top: 0; z-index: 1000;
 }
@@ -24,21 +28,35 @@ body {
 
 /* NAV BUTTONS */
 .nav-btn {
-    display: flex; align-items: center; 
-    background-color: #0277bd; color: #fff;
-    padding: 8px 14px; margin-right: 4px; border-radius: 4px;
-    font-size: 0.85rem; font-weight: 600; text-transform: uppercase;
-    cursor: pointer; transition: background 0.2s; height: 36px;
-}
-.nav-btn:hover { background-color: #01579b; }
-.nav-btn i { margin-right: 8px; font-size: 1rem; }
-.badge {
-    background-color: #ff3d00; color: white; font-size: 0.7rem; font-weight: bold;
-    padding: 2px 6px; border-radius: 10px; margin-left: 6px; 
-    position: relative; top: -1px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; /* Ensures content is centered */
+    background-color: #0277bd; 
+    color: #fff;
+    padding: 8px 14px; 
+    margin-right: 4px; 
+    border-radius: 4px;
+    font-size: 0.85rem; 
+    font-weight: 600; 
+    text-transform: uppercase;
+    cursor: pointer; 
+    transition: background 0.2s; 
+    height: 36px;
+    
+    /* FIX: Added gap to separate Icon and Text */
+    gap: 10px; 
 }
 
-/* HEADER RIGHT */
+.nav-btn:hover { 
+    background-color: #01579b; 
+}
+
+.nav-btn i { 
+    font-size: 1rem; 
+    /* Removed margin-right because 'gap' handles the spacing now */
+    margin: 0; 
+}
+
 .header-right { display: flex; align-items: center; gap: 12px; }
 .icon-btn {
     width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;
@@ -52,20 +70,1072 @@ body {
     font-size: 1.8rem; cursor: pointer; margin-left: 5px;
 }
 
-/* --- SUB HEADER --- */
-.sub-header { 
-    display: flex; justify-content: space-between; align-items: center; 
-    padding: 25px 30px 15px 30px; 
+/* --- SUB HEADER (Title & Top Actions) --- */
+.page-header-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #f4f6f8;
 }
-.page-title { 
-    font-size: 1.5rem; font-weight: 700; color: #333; 
-    text-transform: uppercase; letter-spacing: 1px;
+
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
-.close-btn-container { 
-    display: flex; flex-direction: column; align-items: center; 
-    cursor: pointer; color: #7f8c8d; text-decoration: none;
+
+/* Action Buttons Group (Right side) */
+.header-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between buttons */
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    color: #7f8c8d; /* Muted grey by default */
     transition: color 0.2s;
 }
-.close-btn-container:hover { color: #e74c3c; }
-.close-icon-circle { border: 2px solid currentColor; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; font-size: 0.9rem; margin-bottom: 2px;}
-.close-text { font-size: 0.7rem; font-weight: 700; }
+
+/* Hover effects */
+.action-btn:hover { color: #0091ea; /* Blue hover for standard actions */ }
+.action-btn.close-btn:hover { color: #e74c3c; /* Red hover for close */ }
+
+.action-circle {
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+    background-color: transparent;
+}
+
+.action-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: capitalize; /* or uppercase if you prefer */
+}
+
+/* --- MAIN CARD --- */
+.main-wrapper {
+    padding: 0 30px 30px 30px;
+    flex: 1;
+}
+
+.content-card {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* --- CARD TOOLBAR (Date & Search) --- */
+.card-row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 40px; /* Match search bar height */
+}
+.row-icon { color: #3498db; font-size: 1.2rem; }
+
+/* --- FIXED TOOLBAR STYLES (Green Theme) --- */
+
+/* 1. Date & Current Day Button */
+.date-input-wrapper {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+}
+
+.clean-date-input {
+    height: 100%;
+    padding: 8px 32px 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.clean-date-input:focus {
+    border-color: #2662a6;
+    box-shadow: 0 0 4px rgba(38, 98, 166, 0.2);
+}
+
+.btn-current-day {
+    height: 100%;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    color: #fff;
+    border-radius: 6px;
+    background-color: #2662a6;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.btn-current-day:hover {
+    background-color: #000e89;
+}
+
+.date-input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.clean-date-input {
+    padding-right: 32px; /* Space for the X icon */
+}
+
+.date-clear-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #999;
+    font-size: 14px;
+    transition: color 0.2s ease;
+    pointer-events: auto;
+}
+
+.date-clear-icon:hover {
+    color: #ff6b6b;
+}
+
+/* 2. Search Area Wrapper */
+.search-ui-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 3. Green Search Button */
+.btn-search {
+    background-color: #2662a6 !important; /* Force Green */
+    color: #fff;
+    border: none;
+    padding: 0 25px; /* Wider padding */
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    height: 42px;
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+}
+.btn-search:hover { background-color: #000e89 !important; }
+
+/* 4. Search Input & X Button */
+.search-input-container {
+    position: relative;
+    width: 320px; /* Wide input */
+}
+
+.clean-search-input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 35px 8px 12px; /* Space for X */
+    font-size: 0.95rem;
+    height: 42px;
+    outline: none;
+}
+.clean-search-input:focus { border-color: #26a69a; }
+
+.search-clear-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 1.1rem;
+    cursor: pointer;
+    
+    /* CHANGE THIS: Make it always visible */
+    display: block !important; 
+    
+    transition: color 0.2s;
+}
+
+.search-clear-btn:hover {
+    color: #ff6b6b;
+}
+
+/* --- CONTENT BODY --- */
+.row-divider { height: 1px; background-color: #eee; margin: 0 25px; }
+
+.empty-state-container {
+    padding: 40px; text-align: center;
+    flex: 1; display: flex; align-items: center; justify-content: center;
+}
+.empty-state-text {
+    font-style: italic; color: #aaa; font-size: 0.95rem;
+}
+
+/* --- NEW TICKET ENTRY STYLES --- */
+
+/* The header row for the table (Account Title | Debit | Credit) */
+.ticket-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    background-color: #fff;
+}
+
+/* "Account Title" sits on the left */
+.col-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #333;
+    text-transform: uppercase;
+    flex: 1; /* Takes up available space pushing others to right */
+}
+
+/* Grouping for Debit and Credit to align them to the right */
+/* --- UPDATED ALIGNMENT FIXES --- */
+
+/* 1. HEADER ALIGNMENT */
+.col-values-group {
+    display: flex;
+    gap: 20px; /* Consistent gap */
+    margin-right: 30px; /* Match row padding */
+}
+
+.col-header-text {
+    width: 180px; /* FIXED WIDTH for alignment */
+    text-align: right;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #333;
+    text-transform: uppercase;
+    flex-shrink: 0; /* Prevents shrinking */
+}
+
+/* 2. ROW ALIGNMENT */
+.entry-amounts {
+    display: flex;
+    gap: 20px; /* Must match Header Gap */
+    margin-right: 0; /* Padding is handled by .entry-row */
+}
+
+.amount-cell {
+    width: 180px; /* Must match Header Width */
+    text-align: right;
+    font-size: 1rem;
+    color: #555;
+    flex-shrink: 0;
+    white-space: nowrap; /* Keeps numbers on one line */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds '...' if number is too massive */
+}
+
+/* 3. FOOTER ALIGNMENT */
+.sub-total-values {
+    display: flex;
+    gap: 20px; /* Must match Header Gap */
+    margin-right: 0;
+}
+
+.total-amount {
+    width: 180px; /* Must match Header Width */
+    text-align: right;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #ff5252;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* --- NEW MODAL STYLES (Updated for better spacing) --- */
+
+/* Overlay */
+.modal-overlay {
+    display: none; 
+    position: fixed; 
+    z-index: 2000; 
+    left: 0; top: 0;
+    width: 100%; height: 100%; 
+    background-color: rgba(0,0,0,0.5); 
+    justify-content: center; align-items: center;
+}
+
+/* Modal Box */
+.modal-content {
+    background-color: #fff;
+    /* INCREASED PADDING for more breathing room overall */
+    padding: 30px; 
+    border-radius: 8px;
+    width: 650px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Softer shadow */
+    display: flex; flex-direction: column; 
+    /* Increased gap between Header, Body, and Footer */
+    gap: 30px; 
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Header */
+.modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    /* Added slight margin below header */
+    margin-bottom: 10px; 
+}
+.modal-header h3 { font-size: 1.2rem; font-weight: 700; color: #333; margin: 0; }
+
+/* Green Close Button */
+.close-modal-btn {
+    color: #c9c9c9;
+    width: 32px; height: 32px; /* Slightly larger target */
+    display: flex; justify-content: center; align-items: center;
+    border-radius: 4px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.close-modal-btn:hover { color: #3d3d3d; }
+
+/* Account Select Box */
+.account-select-box {
+    border: 1px solid #29b6f6; /* Blue border matching theme */
+    border-radius: 6px;
+    padding: 15px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background 0.1s, box-shadow 0.1s;
+    /* ADDED MARGIN BOTTOM to separate from inputs below */
+    margin-bottom: 25px; 
+}
+.account-select-box:hover { 
+    background-color: #f0faff; /* Very light blue hover */
+    box-shadow: 0 2px 5px rgba(41, 182, 246, 0.15);
+}
+.warning-icon { color: #054657; font-size: 1.3rem; }
+.select-text { color: #555; font-weight: 500; font-size: 1rem; }
+
+/* Dr / Cr Row */
+.dr-cr-row {
+    display: flex; gap: 30px; /* Increased gap between Dr and Cr inputs */
+    /* ADDED MARGIN BOTTOM to separate from remarks below */
+    margin-bottom: 25px;
+}
+
+.input-group-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle depth */
+}
+
+.input-label {
+    color: #fff;
+    font-weight: 700;
+    padding: 0 18px; /* Wider labels */
+    display: flex; align-items: center;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.label-dr { background-color: #ff5252; }
+.label-cr { background-color: #2ecc71; }
+
+.amount-input {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-left: none; 
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding: 12px; /* Larger touch area */
+    font-size: 1rem;
+    outline: none;
+    color: #333;
+    transition: border-color 0.2s;
+}
+/* Changed focus color to BLUE to match theme */
+.amount-input:focus { border-color: #29b6f6; }
+
+/* --- DISABLED INPUT STATE --- */
+.amount-input:disabled {
+    background-color: #f5f5f5; /* Light grey background */
+    cursor: not-allowed;
+    color: #aaa; /* Faded text */
+    border-color: #eee;
+}
+
+/* Remarks */
+.remarks-box {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: none;
+    height: 120px;
+    outline: none;
+    color: #333;
+    transition: border-color 0.2s;
+}
+.remarks-box::placeholder { color: #999; }
+/* Changed focus color to BLUE to match theme */
+.remarks-box:focus { border-color: #29b6f6; }
+
+/* Footer Buttons */
+.modal-footer {
+    display: flex; justify-content: space-between;
+    /* Increased padding above footer */
+    padding-top: 20px; 
+    border-top: 1px solid #eee;
+}
+
+.btn-new-cancel {
+    background-color: #fff;
+    color: #7c7c7c;
+    border: 1px solid #7c7c7c;
+    padding: 10px 24px; /* Larger buttons */
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: background 0.2s;
+}
+.btn-new-cancel:hover { background-color: #dbdbdb; }
+
+.btn-new-confirm {
+    background-color: #159ad8;
+    color: #fff;
+    border: none;
+    padding: 10px 24px; /* Larger buttons */
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: background 0.2s;
+    box-shadow: 0 2px 5px rgba(46, 204, 113, 0.2);
+}
+.btn-new-confirm:hover { background-color: #2778ae; }
+
+/* --- ACCOUNT SELECTION MODAL STYLES --- */
+
+/* Search Bar Area */
+.account-search-area {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.account-search-input {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    outline: none;
+}
+.account-search-input:focus { border-color: #29b6f6; }
+
+.btn-search-action {
+    background-color: #3498db; /* Green Search Button */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0 20px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+}
+.btn-search-action:hover { background-color: #2778ae; }
+
+/* List Count */
+.account-list-count {
+    color: #999;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+}
+
+/* Account List Container */
+.account-list-container {
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex; flex-direction: column;
+}
+
+/* Individual List Items */
+.account-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #f9f9f9;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+.account-item:hover {
+    background-color: #f0f9fd; /* Very light green hover */
+}
+
+.acc-name {
+    color: #2e85cc; /* Green Title */
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+.acc-bread {
+    color: #999;
+    font-size: 0.8rem;
+}
+
+/* Close Button specific for this modal */
+.close-select-modal-btn {
+    color: #aaa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+.close-select-modal-btn:hover { color: #555; }
+
+/* Footer Info */
+.info-text {
+    color: #aaa;
+    font-size: 0.85rem;
+    display: flex; align-items: center; gap: 6px;
+}
+
+/* --- TICKET ENTRY LIST STYLES --- */
+
+.entry-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; 
+    padding: 15px 30px;
+    border-bottom: 1px solid #eee;
+    background-color: #fff;
+    transition: background 0.1s;
+}
+.entry-row:hover { background-color: #fafafa; }
+
+/* Left Side: Account Details */
+.entry-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.entry-name-line {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #333;
+    display: flex; align-items: center; gap: 15px; /* Gap between Name and Icons */
+}
+
+/* Action Icons Styling */
+.entry-actions {
+    display: flex;
+    gap: 12px;
+    opacity: 0; /* Hidden by default until hover for cleaner look */
+    transition: opacity 0.2s;
+}
+
+/* Show icons when hovering the row */
+.entry-row:hover .entry-actions {
+    opacity: 1;
+}
+
+.action-icon {
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.edit-icon { 
+    color: #29b6f6; /* Blue */ 
+}
+.edit-icon:hover { background-color: #e1f5fe; }
+
+.delete-icon { 
+    color: #ff5252; /* Red */ 
+}
+.delete-icon:hover { background-color: #ffebee; }
+
+
+.entry-breadcrumb {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* Right Side: Amounts */
+.entry-amounts {
+    display: flex;
+    gap: 60px;
+    margin-right: 20px;
+}
+.amount-cell {
+    min-width: 60px;
+    text-align: right;
+    font-size: 1rem;
+    color: #555;
+}
+
+/* --- SUB TOTAL FOOTER --- */
+.sub-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #fff; /* Keep white like image */
+    border-top: 2px solid #eee; 
+}
+
+.sub-total-label {
+    font-weight: 700;
+    color: #ff5252; /* Red for Unbalanced */
+    font-size: 1.1rem;
+    text-transform: capitalize;
+}
+
+.sub-total-values {
+    display: flex;
+    gap: 60px;
+    margin-right: 20px;
+}
+
+.total-amount {
+    min-width: 60px;
+    text-align: right;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #ff5252; /* Red matching label */
+}
+
+/* --- BALANCED FOOTER STATE --- */
+
+/* Default red is already defined in .sub-total-label and .total-amount */
+
+/* When the footer has the class 'balanced', turn everything green */
+.sub-total-row.balanced .sub-total-label,
+.sub-total-row.balanced .total-amount {
+    color: #2ecc71 !important; /* Green */
+}
+
+/* --- SAVED TICKET CARD STYLES --- */
+
+/* --- SAVED TICKET CARD STYLES --- */
+
+.saved-ticket-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    position: relative; 
+}
+
+/* Header Strip */
+.ticket-card-header {
+    background-color: #f0f6fd; 
+    padding: 15px 25px;
+    
+    /* DEFAULT: Fully rounded (for collapsed state) */
+    border-radius: 4px; 
+    
+    /* Hide the bottom border by default so it looks like a pill */
+    border-bottom: none; 
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transition: border-radius 0.1s; /* Smooth visual switch */
+}
+
+/* NEW: Style for when the ticket is open */
+.ticket-card-header.expanded {
+    /* Flatten bottom corners to connect to body */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    
+    /* Add the separator line only when open */
+    border-bottom: 1px solid #e0f2f1;
+}
+
+.ticket-id-title {
+    font-weight: 700;
+    color: #002f96; /* Teal color */
+    font-size: 1rem;
+}
+
+/* --- HEADER TEXT COLORS --- */
+.ticket-id-text.balanced {
+    color: #209e54; /* Green */
+}
+
+.ticket-id-text.unbalanced {
+    color: #ff5252; /* Red */
+}
+
+.ticket-toggle-btn {
+    background-color: #b2cbdf; /* Lighter teal circle */
+    color: #001969;
+    width: 28px; height: 28px;
+    border-radius: 4px;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+.ticket-toggle-btn:hover { background-color: #808ecb; }
+
+/* Table Header inside Card */
+.card-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 25px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #eee;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #333;
+}
+
+/* Rows inside Card */
+.card-entry-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 25px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.card-entry-details { flex: 1; }
+.card-acc-title { font-weight: 700; font-size: 0.95rem; color: #333; margin-bottom: 4px; }
+.card-acc-bread { font-size: 0.8rem; color: #888; }
+
+.card-values { display: flex; gap: 60px; margin-right: 20px; }
+.card-val { width: 100px; text-align: right; font-size: 0.95rem; color: #555; }
+
+/* Footer inside Card */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 25px;
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.footer-status {
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+.status-balanced { color: #2ecc71; } /* Green */
+.status-unbalanced { color: #ff5252; } /* Red */
+
+.footer-values { display: flex; gap: 60px; margin-right: 20px; }
+.footer-val { width: 100px; text-align: right; font-weight: 700; font-size: 0.95rem; }
+.val-balanced { color: #2ecc71; }
+.val-unbalanced { color: #ff5252; }
+
+/* --- TICKET MENU STYLES --- */
+.ticket-menu-container {
+    position: relative;
+}
+
+.kebab-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer;
+    color: #555;
+    transition: background 0.2s;
+}
+.kebab-btn:hover { background-color: #eee; color: #333; }
+
+/* The Dropdown Box */
+.ticket-dropdown {
+    display: none; /* Hidden by default */
+    position: absolute;
+    right: 0; top: 35px;
+    background-color: #fff;
+    min-width: 140px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-radius: 6px;
+    z-index: 100;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+.ticket-dropdown.show { display: block; }
+
+.menu-item {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    color: #444;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    transition: background 0.1s;
+}
+
+.menu-item:hover { background-color: #f9f9f9; }
+
+.menu-item.delete-opt { color: #ff5252; }
+.menu-item.delete-opt:hover { background-color: #fff5f5; }
+
+/* --- COLLAPSIBLE TICKET STYLES --- */
+.ticket-card-header {
+    cursor: pointer; /* Shows hand cursor */
+    user-select: none; /* Prevents text highlighting when clicking fast */
+}
+
+.ticket-toggle-btn i {
+    transition: transform 0.3s ease; /* Smooth rotation */
+}
+
+/* Class to rotate the arrow when collapsed */
+.ticket-toggle-btn i.rotated {
+    transform: rotate(-90deg);
+}
+
+/* --- CUSTOM MODAL STYLES --- */
+.custom-modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+    z-index: 3000; /* Highest priority */
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-modal-box {
+    background-color: #fff;
+    width: 400px;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: popIn 0.2s ease-out;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Icons */
+.modal-icon-circle {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    margin: 0 auto 20px auto;
+    font-size: 1.8rem;
+}
+
+/* Variants */
+.modal-success .modal-icon-circle {
+    background-color: #e8f5e9;
+    color: #2e7d32; /* Green */
+}
+.modal-success .btn-modal-confirm { background-color: #2e7d32; }
+
+.modal-danger .modal-icon-circle {
+    background-color: #ffebee;
+    color: #c62828; /* Red */
+}
+.modal-danger .btn-modal-confirm { background-color: #c62828; }
+
+.modal-warning .modal-icon-circle {
+    background-color: #fff3e0;
+    color: #ef6c00; /* Orange */
+}
+.modal-warning .btn-modal-confirm { background-color: #ef6c00; }
+
+/* Text */
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.modal-desc {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Buttons */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-modal-base {
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-modal-cancel {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #555;
+}
+.btn-modal-cancel:hover { background-color: #f5f5f5; }
+
+.btn-modal-confirm {
+    border: none;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.btn-modal-confirm:hover { opacity: 0.9; }
+
+/* --- PROOFSHEET STYLES --- */
+
+/* 1. Header Strip (Specific to Proofsheet) */
+.proof-header-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.proof-title-group {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.proof-date {
+    color: #2ecc71; /* Green Date */
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+/* 2. Action Buttons (Post, FS, Export) */
+.proof-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-proof-green {
+    background-color: #26a69a; /* Teal/Green */
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    transition: background 0.2s;
+}
+
+.btn-proof-green:hover { background-color: #00897b; }
+
+.btn-proof-back {
+    background-color: #7f8c8d;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex; align-items: center;
+}
+.btn-proof-back:hover { background-color: #666; }
+
+
+/* 3. The Table Layout */
+.proof-table-container {
+    background-color: #fff;
+    /* Removed margin/radius to make it look like a clean sheet */
+    border-top: 1px solid #eee;
+}
+
+.proof-table-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px; /* Aligned with page padding */
+    border-bottom: 1px solid #eee;
+    font-weight: 700;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.proof-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 30px;
+    border-bottom: 1px solid #f9f9f9;
+}
+.proof-row:hover { background-color: #fcfcfc; }
+
+/* Columns */
+.proof-col-acc { flex: 1; }
+.proof-acc-name { font-weight: 700; color: #333; font-size: 0.95rem; margin-bottom: 2px; }
+.proof-acc-bread { font-size: 0.8rem; color: #888; }
+
+.proof-col-values {
+    display: flex;
+    gap: 60px;
+    margin-right: 20px;
+}
+.proof-val {
+    width: 100px;
+    text-align: right;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* 4. Footer Totals */
+.proof-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-top: 2px solid #eee;
+}
+
+.proof-status { font-weight: 700; font-size: 0.95rem; }
+.proof-val-total { font-weight: 700; font-size: 0.95rem; width: 100px; text-align: right; }
+
+/* Status Colors */
+.status-balanced { color: #2ecc71; }
+.status-unbalanced { color: #ff5252; }

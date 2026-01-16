@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal Ticket Report</title>
+    <style>
+        /* --- REPORT SPECIFIC STYLES --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #525659; /* Grey background like a PDF viewer */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .report-paper {
+            background-color: #fff;
+            width: 210mm; /* A4 Width */
+            min-height: 297mm; /* A4 Height */
+            padding: 20px 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Top Header Strip */
+        .report-top-strip {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Titles */
+        .report-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .company-details {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .report-meta {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .branch-name {
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        /* Ticket Table Styling */
+        .ticket-section {
+            margin-bottom: 30px;
+            border: 1px solid #000;
+        }
+
+        .ticket-header-bar {
+            background-color: #808080; /* Grey bar */
+            color: #fff;
+            font-weight: 700;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .report-table th {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid #000;
+        }
+        
+        /* Specific Alignments matching reference */
+        .th-debit, .th-credit { text-align: right !important; width: 100px; }
+        
+        .report-table td {
+            padding: 8px 10px;
+            vertical-align: top;
+        }
+
+        .td-val { text-align: right; }
+
+        /* Subtotal Row */
+        .row-subtotal td {
+            font-weight: 700;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        /* Grand Total Section */
+        .grand-total-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #000;
+            margin-bottom: 40px;
+        }
+
+        /* Footer / Signatories */
+        .footer-section {
+            margin-top: 50px;
+            font-size: 0.9rem;
+        }
+        .footer-label { font-weight: 700; margin-bottom: 20px; }
+
+        /* Print Settings */
+        @media print {
+            body { background-color: #fff; padding: 0; }
+            .report-paper { box-shadow: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="report-paper">
+        <div class="report-top-strip">
+            <div>Winnolas</div>
+            <div id="gen-date">Generated Date: ...</div>
+        </div>
+
+        <div class="report-title">Journal Ticket Report</div>
+
+        <div class="report-meta">
+            Date: <span id="report-date">...</span>
+        </div>
+
+        <div id="report-container">
+            </div>
+
+        <div class="grand-total-section">
+            <div style="width: 200px;">Grand Total:</div>
+            <div id="account-count" style="flex:1; text-align: center;">0 Account(s)</div>
+            <div style="width: 100px; text-align: right;" id="grand-dr">0.00</div>
+            <div style="width: 100px; text-align: right;" id="grand-cr">0.00</div>
+        </div>
+
+        <div class="footer-section">
+            <div class="footer-label">Prepared By:</div>
+            <div>Name</div>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        generateReport();
+    });
+
+    function generateReport() {
+        // 1. Set Generation Time
+        const now = new Date();
+        document.getElementById('gen-date').textContent = "Generated Date: " + now.toLocaleString();
+
+        // 2. Get Data
+        const allTickets = JSON.parse(localStorage.getItem('winnolas_tickets')) || [];
+        
+        // 3. Determine "Report Date" (Most recent date)
+        let targetDate = "";
+        if (allTickets.length > 0) {
+            const sorted = allTickets.sort((a,b) => b.id.localeCompare(a.id));
+            targetDate = sorted[0].date;
+        } else {
+            targetDate = new Date().toISOString().split('T')[0];
+        }
+        document.getElementById('report-date').textContent = targetDate;
+
+        // 4. Filter Tickets for that Date
+        const dailyTickets = allTickets.filter(t => t.date === targetDate);
+        
+        // 5. Generate HTML
+        const container = document.getElementById('report-container');
+        let html = "";
+        let grandDr = 0;
+        let grandCr = 0;
+        let totalAccounts = 0;
+
+        dailyTickets.forEach(ticket => {
+            let rowsHtml = "";
+            let subDr = 0;
+            let subCr = 0;
+
+            ticket.entries.forEach(entry => {
+                const dr = entry.dr;
+                const cr = entry.cr;
+                subDr += dr;
+                subCr += cr;
+                grandDr += dr;
+                grandCr += cr;
+                totalAccounts++;
+
+                rowsHtml += `
+                    <tr>
+                        <td>${entry.account}</td>
+                        <td class="td-val">${dr > 0 ? dr.toLocaleString('en-US', {minimumFractionDigits: 2}) : "0.00"}</td>
+                        <td class="td-val">${cr > 0 ? cr.toLocaleString('en-US', {minimumFractionDigits: 2}) : "0.00"}</td>
+                        <td></td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                <div class="ticket-section">
+                    <div class="ticket-header-bar">Ticket No: ${ticket.id}</div>
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>Account</th>
+                                <th class="th-debit">Debit</th>
+                                <th class="th-credit">Credit</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rowsHtml}
+                            <tr class="row-subtotal">
+                                <td>Sub Total</td>
+                                <td class="td-val">${subDr.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                                <td class="td-val">${subCr.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+        
+        // 6. Update Footer Stats
+        document.getElementById('grand-dr').textContent = grandDr.toLocaleString('en-US', {minimumFractionDigits: 2});
+        document.getElementById('grand-cr').textContent = grandCr.toLocaleString('en-US', {minimumFractionDigits: 2});
+        document.getElementById('account-count').textContent = totalAccounts + " Account(s)";
+    }
+</script>
+
+</body>
+</html>

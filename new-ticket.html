@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winnolas - New Ticket Entry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="global-header">
+    <div class="header-left">
+        <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        <div class="brand-container">
+            <div class="brand-name">winnolas<span class="tm-symbol">&trade;</span></div>
+        </div>
+        <div class="nav-btn"><i class="fa-solid fa-house"></i> AGENCY</div>
+        <div class="nav-btn"><i class="fa-solid fa-clock-rotate-left"></i> RECENT TABS</div>
+        <div class="nav-btn"><i class="fa-regular fa-circle-user"></i> JOHN DOE</div>
+    </div>
+    <div class="header-right">
+        <div class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+        <div class="icon-btn"><i class="fa-regular fa-bell"></i></div>
+        <div class="user-profile-circle"><i class="fa-solid fa-user-circle"></i></div>
+    </div>
+</header>
+
+<div class="page-header-strip">
+    <h1 class="page-title">NEW TICKET ENTRY</h1>
+    
+    <div class="header-actions-group">
+        <div class="action-btn" id="add-ticket-btn">
+            <div class="action-circle"><i class="fa-solid fa-plus"></i></div>
+            <span class="action-label">ADD</span>
+        </div>
+
+        <div class="action-btn">
+            <div class="action-circle"><i class="fa-solid fa-check"></i></div>
+            <span class="action-label">CONFIRM</span>
+        </div>
+
+        <a href="index.html" style="text-decoration: none;">
+            <div class="action-btn close-btn">
+                <div class="action-circle"><i class="fa-solid fa-xmark"></i></div>
+                <span class="action-label">CLOSE</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<main class="main-wrapper">
+    <div class="content-card">
+        
+        <div class="ticket-header-row">
+            <div class="col-title">ACCOUNT TITLE</div>
+            <div class="col-values-group">
+                <div class="col-header-text">DEBIT</div>
+                <div class="col-header-text">CREDIT</div>
+            </div>
+        </div>
+
+        <div class="row-divider"></div>
+
+        <div id="entries-container">
+            <div id="empty-state-msg" class="empty-state-container">
+                <p class="empty-state-text">No entry yet</p>
+            </div>
+        </div>
+
+        <div id="entries-footer" class="sub-total-row" style="display: none;">
+            <div class="sub-total-label">Sub Total (Unbalanced)</div>
+            <div class="sub-total-values">
+                <div id="total-dr" class="total-amount">0.00</div>
+                <div id="total-cr" class="total-amount">0.00</div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<div id="ticketModal" class="modal-overlay">
+    <div class="modal-content">
+        
+        <div class="modal-header">
+            <h3>Add Ticket</h3>
+            <div class="close-modal-btn">&times;</div>
+        </div>
+
+        <div class="modal-body">
+            
+            <div class="account-select-box">
+                <i class="fa-solid fa-triangle-exclamation warning-icon"></i>
+                <span class="select-text">No Account Selected</span>
+                </div>
+
+                <div class="dr-cr-row">
+                    
+                    <div class="input-group-wrapper">
+                        <span class="input-label label-dr">Dr-</span>
+                        <input type="number" id="dr-input" class="amount-input" placeholder="0.00">
+                    </div>
+
+                    <div class="input-group-wrapper">
+                        <span class="input-label label-cr">Cr+</span>
+                        <input type="number" id="cr-input" class="amount-input" placeholder="0.00">
+                    </div>
+
+                </div>
+
+            <textarea class="remarks-box" placeholder="Add remarks to better describe your entry."></textarea>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-new-cancel">Cancel</button>
+            <button class="btn-new-confirm">Add a Ticket</button>
+        </div>
+
+    </div>
+</div>
+
+<div id="accountSelectionModal" class="modal-overlay" style="z-index: 2100;">
+    <div class="modal-content" style="width: 700px; padding: 20px 25px;">
+        
+        <div class="modal-header">
+            <h3>Select Account</h3>
+            <div class="close-select-modal-btn">&times;</div>
+        </div>
+
+        <div class="account-search-area">
+            <input type="text" placeholder="Search accounts..." class="account-search-input">
+            <button class="btn-search-action"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+        </div>
+
+        <div class="account-list-count">
+            <i class="fa-solid fa-list-ul"></i> Found 5 account(s)
+        </div>
+
+        <div class="account-list-container">
+            
+            <div class="account-item" data-name="Cash On Hand">
+                <div class="acc-name">Cash On Hand</div>
+                <div class="acc-bread">Asset > Cash on Hand</div>
+            </div>
+
+            <div class="account-item" data-name="Checks & Other Cash Items (COCI)">
+                <div class="acc-name">Checks & Other Cash Items (COCI)</div>
+                <div class="acc-bread">Asset > Checks & Other Cash Items (COCI)</div>
+            </div>
+
+            <div class="account-item" data-name="PNB Corporate SA #1234 5678 9">
+                <div class="acc-name">PNB Corporate SA #1234 5678 9</div>
+                <div class="acc-bread">Asset > Cash In Bank > Philippine National Bank (PNB) > PNB Corporate SA #1234 5678 9</div>
+            </div>
+
+            <div class="account-item" data-name="Branch PNB Corporate SA #9876 5432 1">
+                <div class="acc-name">Branch PNB Corporate SA #9876 5432 1</div>
+                <div class="acc-bread">Asset > Cash In Bank > Philippine National Bank (PNB) > Branch PNB Corporate SA #9876 5432 1</div>
+            </div>
+
+            <div class="account-item" data-name="Unclassified Assets">
+                <div class="acc-name">Unclassified Assets</div>
+                <div class="acc-bread">Asset > Unclassified Assets</div>
+            </div>
+
+        </div>
+
+        <div class="modal-footer" style="padding-top: 15px; align-items: center;">
+            <div class="info-text">
+                <i class="fa-solid fa-circle-info"></i> Click on an account to select it
+            </div>
+            <button class="btn-new-cancel close-select-action">Cancel</button>
+        </div>
+
+    </div>
+</div>
+
+<div id="dateSelectionModal" class="modal-overlay" style="z-index: 2200;">
+    <div class="modal-content" style="width: 450px;">
+        
+        <div class="modal-header">
+            <h3>Select Transaction Date</h3>
+            <div class="close-date-modal-btn close-modal-btn">&times;</div>
+        </div>
+
+        <div class="modal-body">
+            <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #444;">Transaction Date</label>
+            <input type="date" id="transaction-date-input" class="amount-input" style="width: 100%; border-left: 1px solid #ddd;">
+            <p id="date-warning" style="color: #ff5252; font-size: 0.85rem; display: none; margin-top: 5px;">
+                <i class="fa-solid fa-circle-exclamation"></i> Please select a valid date.
+            </p>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-new-cancel close-date-action">Cancel</button>
+            <button id="btn-save-final" class="btn-new-confirm">
+                <i class="fa-solid fa-check"></i> Save
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<div id="globalModal" class="custom-modal-overlay">
+    <div class="custom-modal-box">
+        <div class="modal-icon-circle">
+            <i id="modalIcon" class="fa-solid fa-check"></i>
+        </div>
+        <h3 id="modalTitle" class="modal-title">Title</h3>
+        <p id="modalDesc" class="modal-desc">Description text goes here.</p>
+        <div class="modal-actions">
+            <button id="modalCancel" class="btn-modal-base btn-modal-cancel">Cancel</button>
+            <button id="modalConfirm" class="btn-modal-base btn-modal-confirm">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
