@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // --- UPDATED: LOAD TICKETS (Now includes Search Logic) ---
+    // LOAD TICKETS
     function loadSavedTickets() {
         const container = document.getElementById('tickets-container-list');
         const emptyState = document.getElementById('main-empty-state');
@@ -311,7 +311,6 @@ document.addEventListener("DOMContentLoaded", function() {
             `;
         });
 
-        // Add default values if totalDr or totalCr are missing
         const totalDr = ticket.totalDr || 0;
         const totalCr = ticket.totalCr || 0;
 

@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Journal Ticket Report</title>
     <style>
-        /* --- REPORT SPECIFIC STYLES --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #525659; /* Grey background like a PDF viewer */
+            background-color: #525659; 
             margin: 0;
             padding: 20px;
             display: flex;
@@ -17,14 +16,13 @@
 
         .report-paper {
             background-color: #fff;
-            width: 210mm; /* A4 Width */
-            min-height: 297mm; /* A4 Height */
+            width: 210mm; 
+            min-height: 297mm; 
             padding: 20px 40px;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
             position: relative;
         }
 
-        /* Top Header Strip */
         .report-top-strip {
             display: flex;
             justify-content: space-between;
@@ -35,7 +33,6 @@
             margin-bottom: 20px;
         }
 
-        /* Titles */
         .report-title {
             font-size: 1.8rem;
             font-weight: 700;
@@ -63,14 +60,13 @@
             margin-bottom: 15px;
         }
 
-        /* Ticket Table Styling */
         .ticket-section {
             margin-bottom: 30px;
             border: 1px solid #000;
         }
 
         .ticket-header-bar {
-            background-color: #808080; /* Grey bar */
+            background-color: #808080; 
             color: #fff;
             font-weight: 700;
             padding: 5px 10px;
@@ -89,7 +85,6 @@
             border-bottom: 1px solid #000;
         }
         
-        /* Specific Alignments matching reference */
         .th-debit, .th-credit { text-align: right !important; width: 100px; }
         
         .report-table td {
@@ -99,7 +94,6 @@
 
         .td-val { text-align: right; }
 
-        /* Subtotal Row */
         .row-subtotal td {
             font-weight: 700;
             border-top: 1px solid #ccc;
@@ -107,7 +101,6 @@
             padding-bottom: 10px;
         }
 
-        /* Grand Total Section */
         .grand-total-section {
             display: flex;
             justify-content: space-between;
@@ -119,14 +112,12 @@
             margin-bottom: 40px;
         }
 
-        /* Footer / Signatories */
         .footer-section {
             margin-top: 50px;
             font-size: 0.9rem;
         }
         .footer-label { font-weight: 700; margin-bottom: 20px; }
 
-        /* Print Settings */
         @media print {
             body { background-color: #fff; padding: 0; }
             .report-paper { box-shadow: none; width: 100%; }

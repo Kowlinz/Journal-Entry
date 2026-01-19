@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- VARIABLES (Existing) ---
     const ticketModal = document.getElementById("ticketModal");
     const accountModal = document.getElementById("accountSelectionModal");
     const dateModal = document.getElementById("dateSelectionModal");
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- NEW: MODAL HELPER FUNCTION ---
     function showModal({ type, title, message, onConfirm }) {
         const modal = document.getElementById('globalModal');
-        if (!modal) return; // Safety check
+        if (!modal) return;
         const box = modal.querySelector('.custom-modal-box');
         const icon = document.getElementById('modalIcon');
         const titleEl = document.getElementById('modalTitle');
@@ -90,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- REPLACED ALERTS WITH MODALS ---
-
     function loadTicketForEditing(id) {
         const allTickets = JSON.parse(localStorage.getItem('winnolas_tickets')) || [];
         const ticket = allTickets.find(t => t.id === id);
@@ -117,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateFooterTotals();
     }
 
-    // (Modal Open/Close Logic - Same as before)
+    // (Modal Open/Close Logic)
     if(openTicketBtn) openTicketBtn.addEventListener("click", () => { resetModalInputs(); ticketModal.style.display = "flex"; });
     const closeTicketModal = () => { ticketModal.style.display = "none"; resetModalInputs(); };
     if(closeTicketX) closeTicketX.addEventListener("click", closeTicketModal);
@@ -154,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         crInput.addEventListener("input", function() { if(this.value !== "") drInput.value = ""; });
     }
 
-    // --- ADD/UPDATE ENTRY (Validation Updated) ---
+    // --- ADD/UPDATE ENTRY ---
     if(confirmTicketBtn) {
         confirmTicketBtn.addEventListener("click", () => {
             const drValue = parseFloat(drInput.value) || 0;
@@ -169,11 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showModal({ type: 'warning', title: 'Missing Amount', message: 'Please enter a Debit or Credit amount.' });
                 return; 
             }
-
-            // ADD CONFIRMATION (Optional, as requested "Confirming Adding")
-            // Note: Usually adding an entry row is instant, but if you want to confirm:
-            // For now, I'll keep row adding instant for UX speed, but use confirmation on the MAIN SAVE.
-
             processEntry(drValue, crValue, remarksValue);
         });
     }
@@ -204,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeTicketModal();
     }
 
-    // --- MAIN SAVE FLOW (Validations Updated) ---
+    // --- MAIN SAVE FLOW ---
     if(mainConfirmBtn) {
         mainConfirmBtn.addEventListener("click", () => {
             const rows = document.querySelectorAll(".entry-row");
@@ -230,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // CONFIRMATION BEFORE SAVING
             showModal({
                 type: 'success',
                 title: 'Save Ticket?',
@@ -271,9 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
         allTickets.push(newTicket);
         localStorage.setItem('winnolas_tickets', JSON.stringify(allTickets));
         localStorage.removeItem('winnolas_editing_id');
-        
-        // Redirect Logic is now inside the Modal flow, but window.location stops modal visibility.
-        // We just redirect immediately after saving.
         window.location.href = "index.html";
     }
 
@@ -286,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const deleteBtn = rowElement.querySelector(".delete-icon");
 
         deleteBtn.addEventListener("click", () => {
-            // CONFIRM DELETE ENTRY
             showModal({
                 type: 'danger',
                 title: 'Remove Entry?',
@@ -342,7 +330,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target == ticketModal) closeTicketModal();
         if (e.target == accountModal) closeAccountModal();
         if (e.target == dateModal) closeDateModal();
-        // Global Modal click outside logic is handled in individual pages usually or here:
         const globalModal = document.getElementById("globalModal");
         if (e.target == globalModal) globalModal.style.display = "none";
     });

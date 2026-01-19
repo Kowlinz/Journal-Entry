@@ -30,7 +30,7 @@ body {
 .nav-btn {
     display: flex; 
     align-items: center; 
-    justify-content: center; /* Ensures content is centered */
+    justify-content: center; 
     background-color: #0277bd; 
     color: #fff;
     padding: 8px 14px; 
@@ -42,8 +42,6 @@ body {
     cursor: pointer; 
     transition: background 0.2s; 
     height: 36px;
-    
-    /* FIX: Added gap to separate Icon and Text */
     gap: 10px; 
 }
 
@@ -53,7 +51,6 @@ body {
 
 .nav-btn i { 
     font-size: 1rem; 
-    /* Removed margin-right because 'gap' handles the spacing now */
     margin: 0; 
 }
 
@@ -91,7 +88,7 @@ body {
 .header-actions-group {
     display: flex;
     align-items: center;
-    gap: 20px; /* Space between buttons */
+    gap: 20px; 
 }
 
 .action-btn {
@@ -99,13 +96,13 @@ body {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
-    color: #7f8c8d; /* Muted grey by default */
+    color: #7f8c8d; 
     transition: color 0.2s;
 }
 
 /* Hover effects */
-.action-btn:hover { color: #0091ea; /* Blue hover for standard actions */ }
-.action-btn.close-btn:hover { color: #e74c3c; /* Red hover for close */ }
+.action-btn:hover { color: #0091ea; }
+.action-btn.close-btn:hover { color: #e74c3c;  }
 
 .action-circle {
     border: 1px solid currentColor;
@@ -120,7 +117,7 @@ body {
 .action-label {
     font-size: 0.65rem;
     font-weight: 600;
-    text-transform: capitalize; /* or uppercase if you prefer */
+    text-transform: capitalize; 
 }
 
 /* --- MAIN CARD --- */
@@ -151,7 +148,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    height: 40px; /* Match search bar height */
+    height: 40px; 
 }
 .row-icon { color: #3498db; font-size: 1.2rem; }
 
@@ -202,7 +199,7 @@ body {
 }
 
 .clean-date-input {
-    padding-right: 32px; /* Space for the X icon */
+    padding-right: 32px; 
 }
 
 .date-clear-icon {
@@ -230,10 +227,10 @@ body {
 
 /* 3. Green Search Button */
 .btn-search {
-    background-color: #2662a6 !important; /* Force Green */
+    background-color: #2662a6 !important; 
     color: #fff;
     border: none;
-    padding: 0 25px; /* Wider padding */
+    padding: 0 25px; 
     border-radius: 6px;
     font-size: 0.95rem;
     font-weight: 600;
@@ -248,14 +245,14 @@ body {
 /* 4. Search Input & X Button */
 .search-input-container {
     position: relative;
-    width: 320px; /* Wide input */
+    width: 320px; 
 }
 
 .clean-search-input {
     width: 100%;
     border: 1px solid #ccc;
     border-radius: 6px;
-    padding: 8px 35px 8px 12px; /* Space for X */
+    padding: 8px 35px 8px 12px;
     font-size: 0.95rem;
     height: 42px;
     outline: none;
@@ -270,10 +267,7 @@ body {
     color: #999;
     font-size: 1.1rem;
     cursor: pointer;
-    
-    /* CHANGE THIS: Make it always visible */
     display: block !important; 
-    
     transition: color 0.2s;
 }
 
@@ -294,7 +288,6 @@ body {
 
 /* --- NEW TICKET ENTRY STYLES --- */
 
-/* The header row for the table (Account Title | Debit | Credit) */
 .ticket-header-row {
     display: flex;
     justify-content: space-between;
@@ -303,62 +296,61 @@ body {
     background-color: #fff;
 }
 
-/* "Account Title" sits on the left */
 .col-title {
     font-weight: 700;
     font-size: 0.95rem;
     color: #333;
     text-transform: uppercase;
-    flex: 1; /* Takes up available space pushing others to right */
+    flex: 1; 
 }
 
-/* Grouping for Debit and Credit to align them to the right */
+
 /* --- UPDATED ALIGNMENT FIXES --- */
 
 /* 1. HEADER ALIGNMENT */
 .col-values-group {
     display: flex;
-    gap: 20px; /* Consistent gap */
-    margin-right: 30px; /* Match row padding */
+    gap: 20px; 
+    margin-right: 30px; 
 }
 
 .col-header-text {
-    width: 180px; /* FIXED WIDTH for alignment */
+    width: 180px; 
     text-align: right;
     font-weight: 700;
     font-size: 0.95rem;
     color: #333;
     text-transform: uppercase;
-    flex-shrink: 0; /* Prevents shrinking */
+    flex-shrink: 0; 
 }
 
 /* 2. ROW ALIGNMENT */
 .entry-amounts {
     display: flex;
-    gap: 20px; /* Must match Header Gap */
-    margin-right: 0; /* Padding is handled by .entry-row */
+    gap: 20px; 
+    margin-right: 0; 
 }
 
 .amount-cell {
-    width: 180px; /* Must match Header Width */
+    width: 180px; 
     text-align: right;
     font-size: 1rem;
     color: #555;
     flex-shrink: 0;
-    white-space: nowrap; /* Keeps numbers on one line */
+    white-space: nowrap; 
     overflow: hidden;
-    text-overflow: ellipsis; /* Adds '...' if number is too massive */
+    text-overflow: ellipsis; 
 }
 
 /* 3. FOOTER ALIGNMENT */
 .sub-total-values {
     display: flex;
-    gap: 20px; /* Must match Header Gap */
+    gap: 20px; 
     margin-right: 0;
 }
 
 .total-amount {
-    width: 180px; /* Must match Header Width */
+    width: 180px; 
     text-align: right;
     font-weight: 700;
     font-size: 1.1rem;
@@ -383,13 +375,11 @@ body {
 /* Modal Box */
 .modal-content {
     background-color: #fff;
-    /* INCREASED PADDING for more breathing room overall */
     padding: 30px; 
     border-radius: 8px;
     width: 650px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Softer shadow */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     display: flex; flex-direction: column; 
-    /* Increased gap between Header, Body, and Footer */
     gap: 30px; 
     font-family: 'Segoe UI', 'Roboto', sans-serif;
 }
@@ -397,7 +387,6 @@ body {
 /* Header */
 .modal-header {
     display: flex; justify-content: space-between; align-items: center;
-    /* Added slight margin below header */
     margin-bottom: 10px; 
 }
 .modal-header h3 { font-size: 1.2rem; font-weight: 700; color: #333; margin: 0; }
@@ -405,7 +394,7 @@ body {
 /* Green Close Button */
 .close-modal-btn {
     color: #c9c9c9;
-    width: 32px; height: 32px; /* Slightly larger target */
+    width: 32px; height: 32px;
     display: flex; justify-content: center; align-items: center;
     border-radius: 4px;
     font-size: 1.4rem;
@@ -416,18 +405,17 @@ body {
 
 /* Account Select Box */
 .account-select-box {
-    border: 1px solid #29b6f6; /* Blue border matching theme */
+    border: 1px solid #29b6f6; 
     border-radius: 6px;
     padding: 15px;
     display: flex; align-items: center; gap: 12px;
     cursor: pointer;
     background-color: #fff;
     transition: background 0.1s, box-shadow 0.1s;
-    /* ADDED MARGIN BOTTOM to separate from inputs below */
     margin-bottom: 25px; 
 }
 .account-select-box:hover { 
-    background-color: #f0faff; /* Very light blue hover */
+    background-color: #f0faff; 
     box-shadow: 0 2px 5px rgba(41, 182, 246, 0.15);
 }
 .warning-icon { color: #054657; font-size: 1.3rem; }
@@ -435,8 +423,7 @@ body {
 
 /* Dr / Cr Row */
 .dr-cr-row {
-    display: flex; gap: 30px; /* Increased gap between Dr and Cr inputs */
-    /* ADDED MARGIN BOTTOM to separate from remarks below */
+    display: flex; gap: 30px; 
     margin-bottom: 25px;
 }
 
@@ -444,13 +431,13 @@ body {
     flex: 1;
     display: flex;
     align-items: stretch;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Subtle depth */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); 
 }
 
 .input-label {
     color: #fff;
     font-weight: 700;
-    padding: 0 18px; /* Wider labels */
+    padding: 0 18px; 
     display: flex; align-items: center;
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
@@ -466,24 +453,23 @@ body {
     border-left: none; 
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
-    padding: 12px; /* Larger touch area */
+    padding: 12px; 
     font-size: 1rem;
     outline: none;
     color: #333;
     transition: border-color 0.2s;
 }
-/* Changed focus color to BLUE to match theme */
+
 .amount-input:focus { border-color: #29b6f6; }
 
 /* --- DISABLED INPUT STATE --- */
 .amount-input:disabled {
-    background-color: #f5f5f5; /* Light grey background */
+    background-color: #f5f5f5;
     cursor: not-allowed;
-    color: #aaa; /* Faded text */
+    color: #aaa; 
     border-color: #eee;
 }
 
-/* Remarks */
 .remarks-box {
     width: 100%;
     border: 1px solid #ddd;
@@ -498,13 +484,11 @@ body {
     transition: border-color 0.2s;
 }
 .remarks-box::placeholder { color: #999; }
-/* Changed focus color to BLUE to match theme */
 .remarks-box:focus { border-color: #29b6f6; }
 
 /* Footer Buttons */
 .modal-footer {
     display: flex; justify-content: space-between;
-    /* Increased padding above footer */
     padding-top: 20px; 
     border-top: 1px solid #eee;
 }
@@ -513,7 +497,7 @@ body {
     background-color: #fff;
     color: #7c7c7c;
     border: 1px solid #7c7c7c;
-    padding: 10px 24px; /* Larger buttons */
+    padding: 10px 24px; 
     border-radius: 4px;
     font-weight: 600;
     font-size: 0.95rem;
@@ -527,7 +511,7 @@ body {
     background-color: #159ad8;
     color: #fff;
     border: none;
-    padding: 10px 24px; /* Larger buttons */
+    padding: 10px 24px; 
     border-radius: 4px;
     font-weight: 600;
     font-size: 0.95rem;
@@ -539,8 +523,6 @@ body {
 .btn-new-confirm:hover { background-color: #2778ae; }
 
 /* --- ACCOUNT SELECTION MODAL STYLES --- */
-
-/* Search Bar Area */
 .account-search-area {
     display: flex;
     gap: 10px;
@@ -558,7 +540,7 @@ body {
 .account-search-input:focus { border-color: #29b6f6; }
 
 .btn-search-action {
-    background-color: #3498db; /* Green Search Button */
+    background-color: #3498db;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -569,7 +551,6 @@ body {
 }
 .btn-search-action:hover { background-color: #2778ae; }
 
-/* List Count */
 .account-list-count {
     color: #999;
     font-size: 0.85rem;
@@ -577,7 +558,6 @@ body {
     display: flex; align-items: center; gap: 6px;
 }
 
-/* Account List Container */
 .account-list-container {
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
@@ -586,7 +566,6 @@ body {
     display: flex; flex-direction: column;
 }
 
-/* Individual List Items */
 .account-item {
     padding: 15px 0;
     border-bottom: 1px solid #f9f9f9;
@@ -594,11 +573,11 @@ body {
     transition: background 0.1s;
 }
 .account-item:hover {
-    background-color: #f0f9fd; /* Very light green hover */
+    background-color: #f0f9fd; 
 }
 
 .acc-name {
-    color: #2e85cc; /* Green Title */
+    color: #2e85cc; 
     font-weight: 700;
     font-size: 1rem;
     margin-bottom: 4px;
@@ -608,7 +587,6 @@ body {
     font-size: 0.8rem;
 }
 
-/* Close Button specific for this modal */
 .close-select-modal-btn {
     color: #aaa;
     font-size: 1.5rem;
@@ -617,7 +595,6 @@ body {
 }
 .close-select-modal-btn:hover { color: #555; }
 
-/* Footer Info */
 .info-text {
     color: #aaa;
     font-size: 0.85rem;
@@ -637,7 +614,6 @@ body {
 }
 .entry-row:hover { background-color: #fafafa; }
 
-/* Left Side: Account Details */
 .entry-details {
     flex: 1;
     display: flex;
@@ -649,18 +625,16 @@ body {
     font-size: 1rem;
     font-weight: 700;
     color: #333;
-    display: flex; align-items: center; gap: 15px; /* Gap between Name and Icons */
+    display: flex; align-items: center; gap: 15px; 
 }
 
-/* Action Icons Styling */
 .entry-actions {
     display: flex;
     gap: 12px;
-    opacity: 0; /* Hidden by default until hover for cleaner look */
+    opacity: 0; 
     transition: opacity 0.2s;
 }
 
-/* Show icons when hovering the row */
 .entry-row:hover .entry-actions {
     opacity: 1;
 }
@@ -674,12 +648,12 @@ body {
 }
 
 .edit-icon { 
-    color: #29b6f6; /* Blue */ 
+    color: #29b6f6; 
 }
 .edit-icon:hover { background-color: #e1f5fe; }
 
 .delete-icon { 
-    color: #ff5252; /* Red */ 
+    color: #ff5252; 
 }
 .delete-icon:hover { background-color: #ffebee; }
 
@@ -708,13 +682,13 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px 30px;
-    background-color: #fff; /* Keep white like image */
+    background-color: #fff;
     border-top: 2px solid #eee; 
 }
 
 .sub-total-label {
     font-weight: 700;
-    color: #ff5252; /* Red for Unbalanced */
+    color: #ff5252; 
     font-size: 1.1rem;
     text-transform: capitalize;
 }
@@ -730,23 +704,14 @@ body {
     text-align: right;
     font-weight: 700;
     font-size: 1.1rem;
-    color: #ff5252; /* Red matching label */
+    color: #ff5252; 
 }
 
 /* --- BALANCED FOOTER STATE --- */
-
-/* Default red is already defined in .sub-total-label and .total-amount */
-
-/* When the footer has the class 'balanced', turn everything green */
 .sub-total-row.balanced .sub-total-label,
-.sub-total-row.balanced .total-amount {
-    color: #2ecc71 !important; /* Green */
-}
+.sub-total-row.balanced .total-amount { color: #2ecc71 !important; }
 
 /* --- SAVED TICKET CARD STYLES --- */
-
-/* --- SAVED TICKET CARD STYLES --- */
-
 .saved-ticket-card {
     background-color: #fff;
     border: 1px solid #eee;
@@ -760,48 +725,39 @@ body {
 .ticket-card-header {
     background-color: #f0f6fd; 
     padding: 15px 25px;
-    
-    /* DEFAULT: Fully rounded (for collapsed state) */
     border-radius: 4px; 
-    
-    /* Hide the bottom border by default so it looks like a pill */
     border-bottom: none; 
-
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
     user-select: none;
-    transition: border-radius 0.1s; /* Smooth visual switch */
+    transition: border-radius 0.1s; 
 }
 
-/* NEW: Style for when the ticket is open */
 .ticket-card-header.expanded {
-    /* Flatten bottom corners to connect to body */
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    
-    /* Add the separator line only when open */
     border-bottom: 1px solid #e0f2f1;
 }
 
 .ticket-id-title {
     font-weight: 700;
-    color: #002f96; /* Teal color */
+    color: #002f96; 
     font-size: 1rem;
 }
 
 /* --- HEADER TEXT COLORS --- */
 .ticket-id-text.balanced {
-    color: #209e54; /* Green */
+    color: #209e54; 
 }
 
 .ticket-id-text.unbalanced {
-    color: #ff5252; /* Red */
+    color: #ff5252; 
 }
 
 .ticket-toggle-btn {
-    background-color: #b2cbdf; /* Lighter teal circle */
+    background-color: #b2cbdf; 
     color: #001969;
     width: 28px; height: 28px;
     border-radius: 4px;
@@ -854,8 +810,8 @@ body {
     font-weight: 700;
     font-size: 0.95rem;
 }
-.status-balanced { color: #2ecc71; } /* Green */
-.status-unbalanced { color: #ff5252; } /* Red */
+.status-balanced { color: #2ecc71; }
+.status-unbalanced { color: #ff5252; } 
 
 .footer-values { display: flex; gap: 60px; margin-right: 20px; }
 .footer-val { width: 100px; text-align: right; font-weight: 700; font-size: 0.95rem; }
@@ -879,7 +835,7 @@ body {
 
 /* The Dropdown Box */
 .ticket-dropdown {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
     right: 0; top: 35px;
     background-color: #fff;
@@ -907,29 +863,14 @@ body {
 .menu-item.delete-opt { color: #ff5252; }
 .menu-item.delete-opt:hover { background-color: #fff5f5; }
 
-/* --- COLLAPSIBLE TICKET STYLES --- */
-.ticket-card-header {
-    cursor: pointer; /* Shows hand cursor */
-    user-select: none; /* Prevents text highlighting when clicking fast */
-}
-
-.ticket-toggle-btn i {
-    transition: transform 0.3s ease; /* Smooth rotation */
-}
-
-/* Class to rotate the arrow when collapsed */
-.ticket-toggle-btn i.rotated {
-    transform: rotate(-90deg);
-}
-
 /* --- CUSTOM MODAL STYLES --- */
 .custom-modal-overlay {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
-    z-index: 3000; /* Highest priority */
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 3000;
     justify-content: center;
     align-items: center;
 }
@@ -949,7 +890,6 @@ body {
     to { transform: scale(1); opacity: 1; }
 }
 
-/* Icons */
 .modal-icon-circle {
     width: 60px; height: 60px;
     border-radius: 50%;
@@ -961,19 +901,19 @@ body {
 /* Variants */
 .modal-success .modal-icon-circle {
     background-color: #e8f5e9;
-    color: #2e7d32; /* Green */
+    color: #2e7d32; 
 }
 .modal-success .btn-modal-confirm { background-color: #2e7d32; }
 
 .modal-danger .modal-icon-circle {
     background-color: #ffebee;
-    color: #c62828; /* Red */
+    color: #c62828; 
 }
 .modal-danger .btn-modal-confirm { background-color: #c62828; }
 
 .modal-warning .modal-icon-circle {
     background-color: #fff3e0;
-    color: #ef6c00; /* Orange */
+    color: #ef6c00; 
 }
 .modal-warning .btn-modal-confirm { background-color: #ef6c00; }
 
@@ -1024,7 +964,7 @@ body {
 
 /* --- PROOFSHEET STYLES --- */
 
-/* 1. Header Strip (Specific to Proofsheet) */
+/* 1. Header Strip */
 .proof-header-strip {
     display: flex;
     justify-content: space-between;
@@ -1042,19 +982,19 @@ body {
 }
 
 .proof-date {
-    color: #2ecc71; /* Green Date */
+    color: #2ecc71;
     font-weight: 700;
     margin-left: 10px;
 }
 
-/* 2. Action Buttons (Post, FS, Export) */
+/* 2. Action Buttons */
 .proof-actions {
     display: flex;
     gap: 10px;
 }
 
 .btn-proof-green {
-    background-color: #26a69a; /* Teal/Green */
+    background-color: #26a69a;
     color: #fff;
     border: none;
     padding: 8px 20px;
@@ -1085,14 +1025,13 @@ body {
 /* 3. The Table Layout */
 .proof-table-container {
     background-color: #fff;
-    /* Removed margin/radius to make it look like a clean sheet */
     border-top: 1px solid #eee;
 }
 
 .proof-table-header {
     display: flex;
     justify-content: space-between;
-    padding: 15px 30px; /* Aligned with page padding */
+    padding: 15px 30px; 
     border-bottom: 1px solid #eee;
     font-weight: 700;
     color: #333;
@@ -1135,7 +1074,5 @@ body {
 
 .proof-status { font-weight: 700; font-size: 0.95rem; }
 .proof-val-total { font-weight: 700; font-size: 0.95rem; width: 100px; text-align: right; }
-
-/* Status Colors */
 .status-balanced { color: #2ecc71; }
 .status-unbalanced { color: #ff5252; }
