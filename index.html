@@ -44,7 +44,6 @@
                 <span class="action-label">Summarize</span>
             </div>
         </a>
-        <div class="action-btn"><div class="action-circle"><i class="fa-solid fa-power-off"></i></div><span class="action-label">End Day</span></div>
         <div class="action-btn close-btn"><div class="action-circle"><i class="fa-solid fa-xmark"></i></div><span class="action-label">Close</span></div>
     </div>
 </div>
@@ -103,6 +102,11 @@
 document.addEventListener("DOMContentLoaded", function() {
         localStorage.removeItem('winnolas_editing_id'); 
         
+        const dateInput = document.getElementById('filter-date');
+        const now = new Date();
+        const localDate = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+        dateInput.value = localDate;
+
         // Load initial list
         loadSavedTickets();
 
@@ -130,7 +134,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         // --- DATE FILTER LOGIC ---
-        const dateInput = document.getElementById('filter-date');
         const currentDayBtn = document.getElementById('btn-current');
         const dateClearIcon = document.getElementById('btn-date-clear');
 

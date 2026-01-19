@@ -1076,3 +1076,19 @@ body {
 .proof-val-total { font-weight: 700; font-size: 0.95rem; width: 100px; text-align: right; }
 .status-balanced { color: #2ecc71; }
 .status-unbalanced { color: #ff5252; }
+
+/* --- INDENTATION FOR CHILD ACCOUNTS --- */
+.child-indent {
+    padding-left: 40px !important;
+    position: relative;
+}
+
+.child-indent::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    width: 10px;
+    height: 1px;
+    background-color: #ddd;
+}
