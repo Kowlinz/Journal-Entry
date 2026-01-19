@@ -302,6 +302,7 @@ body {
     color: #333;
     text-transform: uppercase;
     flex: 1; 
+    text-align: center
 }
 
 
@@ -316,7 +317,7 @@ body {
 
 .col-header-text {
     width: 180px; 
-    text-align: right;
+    text-align: center;
     font-weight: 700;
     font-size: 0.95rem;
     color: #333;
@@ -1091,4 +1092,80 @@ body {
     width: 10px;
     height: 1px;
     background-color: #ddd;
+}
+
+/* --- FINANCIAL INQUIRY HEADER ALIGNMENT (Reverted Sizes) --- */
+
+/* 1. Container Alignment */
+.header-actions-group {
+    display: flex;
+    align-items: flex-start; /* Ensure items align to the top */
+    gap: 25px; /* Comfortable gap between buttons */
+}
+
+/* 2. Button Structure (Sizes will inherit from main style.css) */
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Removed fixed width so it uses original size */
+}
+
+/* 3. Label Alignment */
+.action-label {
+    text-align: center;
+    line-height: 1.2; /* Ensures "Income Statement" wraps neatly */
+    /* Removed font-size override to use original 0.65rem */
+}
+
+/* --- ACTIVE STATE (Green Style - Original Sizes) --- */
+
+/* When active, turn text green */
+.action-btn.active {
+    color: #2ecc71 !important; 
+}
+
+/* When active, turn circle border and icon green */
+.action-btn.active .action-circle {
+    border-color: #2ecc71;
+    color: #2ecc71;
+    background-color: #f0fdf4; /* Subtle green background */
+}
+
+/* --- SUMMARY MODAL STYLES --- */
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.summary-row label {
+    font-weight: 600;
+    color: #555;
+    width: 30%;
+}
+
+.summary-row input {
+    width: 65%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: right;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    outline: none;
+}
+
+.mini-box {
+    width: 30px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    color: #555;
 }

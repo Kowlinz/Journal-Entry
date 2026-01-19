@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winnolas - Financial Inquiry</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- FINANCIAL INQUIRY STYLES --- */
+        .header-actions-group { gap: 25px; }
+        .action-btn { color: #7f8c8d; width: auto; cursor: pointer; }
+        .action-btn:hover { color: #555; }
+        .action-circle { border-color: #7f8c8d; background-color: transparent; }
+        .action-btn:hover .action-circle { background-color: #f9f9f9; }
+
+        .report-card { background-color: #fff; border-top: 1px solid #eee; }
+        .report-sub-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background-color: #fff; border-bottom: 2px solid #f0f0f0; }
+        .report-sub-title { font-size: 1.1rem; font-weight: 700; color: #2c3e50; text-transform: uppercase; }
+        
+        .btn-filters { background-color: #333; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+        .btn-filters:hover { background-color: #555; }
+
+        .fi-table-header { display: flex; justify-content: space-between; padding: 15px 30px; border-bottom: 1px solid #eee; font-weight: 700; color: #333; font-size: 0.9rem; }
+        
+        .fi-row { display: flex; justify-content: space-between; padding: 12px 30px; border-bottom: 1px solid #f9f9f9; align-items: center; }
+        .fi-row:hover { background-color: #f8fbff; }
+
+        .fi-acc-name { font-size: 0.9rem; color: #03a9f4; font-weight: 500; }
+        .fi-acc-name.header-row { color: #333; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 15px; user-select: none; } 
+        
+        .toggle-icon { transition: transform 0.2s ease; font-size: 0.8rem; color: #555; }
+        .toggle-icon.rotated { transform: rotate(-90deg); }
+
+        .indent-1 { padding-left: 20px; }
+        .indent-2 { padding-left: 40px; }
+        .indent-3 { padding-left: 60px; }
+        .indent-4 { padding-left: 80px; }
+        
+        .fi-col-values { display: flex; gap: 40px; margin-right: 20px; }
+        .fi-val { width: 100px; text-align: right; font-size: 0.9rem; color: #555; }
+        
+        .fi-total-row { display: flex; justify-content: space-between; padding: 20px 30px; background-color: #fff; border-top: 2px solid #eee; margin-top: 10px; }
+        .fi-val-bold { font-weight: 700; color: #333; }
+
+        /* Modal Styles */
+        .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .summary-row label { font-weight: 600; color: #555; width: 30%; }
+        .summary-row input { width: 65%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; text-align: right; font-size: 1rem; color: #333; background-color: #fff; outline: none; }
+        .mini-box { width: 30px; background-color: #f0f0f0; border: 1px solid #ddd; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-weight: 700; color: #555; }
+
+        /* --- LEFT SIDEBAR REPORTS --- */
+        .reports-sidebar {
+            position: fixed;
+            top: 0;
+            left: -350px;
+            width: 350px;
+            height: 100%;
+            background-color: #2c3e50; 
+            box-shadow: 2px 0 15px rgba(0,0,0,0.3);
+            z-index: 3000;
+            transition: left 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reports-sidebar.open { left: 0; }
+
+        .sidebar-header {
+            background-color: #233342;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .sidebar-header h3 { margin: 0; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .sidebar-close { cursor: pointer; color: #ccc; font-size: 1.2rem; transition: 0.2s; }
+        .sidebar-close:hover { color: #fff; }
+
+        .sidebar-content { padding: 20px; overflow-y: auto; }
+
+        .report-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff; 
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .report-list { list-style: none; padding: 0; margin: 0 0 30px 0; }
+
+        .report-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 10px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.1s;
+            color: #ecf0f1; 
+            font-size: 0.95rem;
+        }
+
+        .report-item:hover {
+            background-color: #34495e;
+            color: #fff;
+        }
+
+        .report-icon { font-size: 1.4rem; width: 25px; text-align: center; }
+        .icon-excel { color: #2ecc71; }
+        .icon-pdf { color: #e74c3c; }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2900;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .sidebar-overlay.show { display: block; opacity: 1; }
+    </style>
+</head>
+<body>
+
+<header class="global-header">
+    <div class="header-left">
+        <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        <div class="brand-container"><div class="brand-name">winnolas<span class="tm-symbol">&trade;</span></div></div>
+        <div class="nav-btn"><i class="fa-solid fa-house"></i>AGENCY</div>
+        <div class="nav-btn"><i class="fa-solid fa-clock-rotate-left"></i>RECENT TABS</div>
+        <div class="nav-btn"><i class="fa-regular fa-circle-user"></i>JOHN DOE</div>
+    </div>
+    <div class="header-right">
+        <div class="icon-btn"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <div class="icon-btn"><i class="fa-regular fa-envelope"></i></div>
+        <div class="icon-btn" style="position: relative;"><i class="fa-regular fa-bell"></i></div>
+        <div class="user-profile-circle"><i class="fa-solid fa-user-circle"></i></div>
+    </div>
+</header>
+
+<div class="page-header-strip">
+    <h1 class="page-title" id="main-page-title">FINANCIAL INQUIRY - 2026-01-19</h1>
+    <div class="header-actions-group">
+        <div class="action-btn" onclick="openReportsSidebar()">
+            <div class="action-circle"><i class="fa-solid fa-file-lines"></i></div>
+            <span class="action-label">Report</span>
+        </div>
+        <div class="action-btn" onclick="switchView('trial')"><div class="action-circle"><i class="fa-solid fa-scale-balanced"></i></div><span class="action-label">Trial<br>Balance</span></div>
+        <div class="action-btn" onclick="switchView('income')"><div class="action-circle"><i class="fa-solid fa-file-invoice-dollar"></i></div><span class="action-label">Income<br>Statement</span></div>
+        <div class="action-btn" onclick="switchView('balance')"><div class="action-circle"><i class="fa-solid fa-building-columns"></i></div><span class="action-label">Balance<br>Sheet</span></div>
+        <div class="action-btn" onclick="showSummaryModal()"><div class="action-circle"><i class="fa-solid fa-list"></i></div><span class="action-label">Summarize</span></div>
+        <a href="index.html" style="text-decoration: none;"><div class="action-btn close-btn"><div class="action-circle"><i class="fa-solid fa-xmark"></i></div><span class="action-label">Close</span></div></a>
+    </div>
+</div>
+
+<main class="main-wrapper">
+    <div class="report-card">
+        <div class="report-sub-header">
+            <div class="report-sub-title" id="report-sub-title">TRIAL BALANCE - (2026-01-19)</div>
+            <button class="btn-filters"><i class="fa-solid fa-filter"></i> FILTERS</button>
+        </div>
+        <div class="fi-table-header">
+            <div style="flex:1; text-align: center;">Account Title</div>
+            <div class="fi-col-values">
+                <div style="width: 100px; text-align: center;">Beginning</div>
+                <div style="width: 100px; text-align: center;">Debit</div>
+                <div style="width: 100px; text-align: center;">Credit</div>
+                <div style="width: 100px; text-align: center;">Ending</div>
+            </div>
+        </div>
+        <div id="inquiry-rows">
+            <div class="fi-row row-type-asset" onclick="toggleGroup('asset')">
+                <div class="fi-acc-name header-row"><i id="icon-asset" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Asset</div>
+                <div class="fi-col-values"><div class="fi-val">5,229,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,229,881.90</div></div>
+            </div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-1">Cash On Hand</div><div class="fi-col-values"><div class="fi-val">1,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">1,000.00</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-1">Cash In Bank</div><div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-2">Philippine National Bank (PNB)</div><div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-3">PNB Corporate SA #1234 5678 9</div><div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-1">Property, Plant and Equipment</div><div class="fi-col-values"><div class="fi-val">330,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">330,000.00</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-2">Property and Equipment</div><div class="fi-col-values"><div class="fi-val">330,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">330,000.00</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-3">Furnitures and Fixtures</div><div class="fi-col-values"><div class="fi-val">80,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">80,000.00</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-3">Office Equipment</div><div class="fi-col-values"><div class="fi-val">250,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">250,000.00</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-4">Office equipment - Laptop</div><div class="fi-col-values"><div class="fi-val">250,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">250,000.00</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-1">Accounts Receivables</div><div class="fi-col-values"><div class="fi-val">20,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">20,000.00</div></div></div>
+            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-2">Security deposit - Office Rent</div><div class="fi-col-values"><div class="fi-val">20,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">20,000.00</div></div></div>
+
+            <div class="fi-row row-type-liability" onclick="toggleGroup('liab')">
+                <div class="fi-acc-name header-row"><i id="icon-liab" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Liability</div>
+                <div class="fi-col-values"><div class="fi-val">31,139.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">31,139.90</div></div>
+            </div>
+            <div class="fi-row row-type-liability group-liab" style="display: none;"><div class="fi-acc-name indent-1">Accounts Payable</div><div class="fi-col-values"><div class="fi-val">31,139.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">31,139.90</div></div></div>
+
+            <div class="fi-row row-type-capital" onclick="toggleGroup('capital')">
+                <div class="fi-acc-name header-row"><i id="icon-capital" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Capital</div>
+                <div class="fi-col-values"><div class="fi-val">5,198,742.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,198,742.00</div></div>
+            </div>
+            <div class="fi-row row-type-capital group-capital" style="display: none;"><div class="fi-acc-name indent-1">Paid in Capital</div><div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div></div>
+            <div class="fi-row row-type-capital group-capital" style="display: none;"><div class="fi-acc-name indent-2">Paid-In Capital Stock</div><div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div></div>
+            <div class="fi-row row-type-capital group-capital" style="display: none;"><div class="fi-acc-name indent-3">Paid in Capital CEO</div><div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div></div>
+            <div class="fi-row row-type-capital group-capital" style="display: none;"><div class="fi-acc-name indent-1">Revenue</div><div class="fi-col-values"><div class="fi-val">196,742.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">196,742.00</div></div></div>
+
+            <div class="fi-row row-type-income" onclick="toggleGroup('income')">
+                <div class="fi-acc-name header-row"><i id="icon-income" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Income</div>
+                <div class="fi-col-values"><div class="fi-val">350,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">350,000.00</div></div>
+            </div>
+            <div class="fi-row row-type-income group-income" style="display: none;"><div class="fi-acc-name indent-1">Sales and Receivables</div><div class="fi-col-values"><div class="fi-val">350,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">350,000.00</div></div></div>
+
+            <div class="fi-row row-type-expense" onclick="toggleGroup('expense')">
+                <div class="fi-acc-name header-row"><i id="icon-expense" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Expense</div>
+                <div class="fi-col-values"><div class="fi-val">153,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">153,258.00</div></div>
+            </div>
+            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-1">Operating Expenses</div><div class="fi-col-values"><div class="fi-val">53,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">53,258.00</div></div></div>
+            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-2">Employee Benefits and Compensation</div><div class="fi-col-values"><div class="fi-val">52,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">52,258.00</div></div></div>
+            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-3">Salaries and Wages</div><div class="fi-col-values"><div class="fi-val">52,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">52,258.00</div></div></div>
+            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-4">Salaries and Wages - Regular</div><div class="fi-col-values"><div class="fi-val">52,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">52,258.00</div></div></div>
+            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-2">Office Rental</div><div class="fi-col-values"><div class="fi-val">1,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">1,000.00</div></div></div>
+            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-2">Other Administrative Expenses</div><div class="fi-col-values"><div class="fi-val">100,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">100,000.00</div></div></div>
+        </div>
+
+        <div class="fi-total-row">
+            <div class="fi-acc-name header-row">Total</div>
+            <div class="fi-col-values"><div class="fi-val">10,963,021.80</div><div class="fi-val fi-val-bold">0.00</div><div class="fi-val fi-val-bold">0.00</div><div class="fi-val fi-val-bold">10,963,021.80</div></div>
+        </div>
+    </div>
+</main>
+
+<div id="summaryModal" class="modal-overlay">
+    <div class="modal-content" style="width: 500px; padding: 0; overflow: hidden;">
+        <div style="background-color: #2ecc71; padding: 15px; text-align: center; position: relative;">
+            <h3 style="margin: 0; color: #fff; font-weight: 700; font-size: 1.2rem;">BALANCE</h3>
+            <div class="close-modal-btn" onclick="closeSummaryModal()" style="position: absolute; right: 15px; top: 15px; color: #fff;">&times;</div>
+        </div>
+        <div class="modal-body" style="padding: 5px 25px 25px 25px;">
+            <div style="text-align: center; font-weight: 700; color: #444; margin-bottom: 20px; font-size: 1.1rem;">2026-01-19</div>
+            <div class="summary-row"><label>Assets</label><input type="text" value="5,229,881.90" readonly></div>
+            <div class="summary-row"><label>Liability</label><input type="text" value="31,139.90" readonly></div>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+            <div class="summary-row"><label>Capital</label><div style="display: flex; gap: 5px; width: 65%;"><div class="mini-box">+</div><input type="text" value="5,198,742.00" readonly style="flex: 1; width: auto;"></div></div>
+            <div class="summary-row"><label>Income</label><input type="text" value="350,000.00" readonly></div>
+            <div class="summary-row"><label>Expense</label><div style="display: flex; gap: 5px; width: 65%;"><div class="mini-box">-</div><input type="text" value="153,258.00" readonly style="flex: 1; width: auto;"></div></div>
+            <hr style="border: 0; border-top: 2px solid #eee; margin: 20px 0;">
+            <div class="summary-row"><label style="color: #2ecc71; font-size: 1.1rem;">Revenue</label><input type="text" value="196,742.00" readonly style="color: #2ecc71; font-weight: 700; font-size: 1.1rem;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeReportsSidebar()"></div>
+<div id="reportsSidebar" class="reports-sidebar">
+    <div class="sidebar-header">
+        <h3><i class="fa-solid fa-file-invoice"></i> REPORTS</h3>
+        <div class="sidebar-close" onclick="closeReportsSidebar()"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+    <div class="sidebar-content">
+        <div class="report-section-title">Excel Export</div>
+        <ul class="report-list">
+            <li class="report-item" onclick="exportExcel('Trial Balance')">
+                <i class="fa-solid fa-file-excel report-icon icon-excel"></i><span>Trial Balance</span>
+            </li>
+            <li class="report-item" onclick="exportExcel('Income Statement')">
+                <i class="fa-solid fa-file-excel report-icon icon-excel"></i><span>Income Statement</span>
+            </li>
+            <li class="report-item" onclick="exportExcel('Balance Sheet')">
+                <i class="fa-solid fa-file-excel report-icon icon-excel"></i><span>Balance Sheet</span>
+            </li>
+        </ul>
+        <div class="report-section-title">Report</div>
+        <ul class="report-list">
+            <li class="report-item" onclick="printPdf('Trial Balance')">
+                <i class="fa-solid fa-file-pdf report-icon icon-pdf"></i><span>Trial Balance Report</span>
+            </li>
+            <li class="report-item" onclick="printPdf('Income Statement')">
+                <i class="fa-solid fa-file-pdf report-icon icon-pdf"></i><span>Income Statement Report</span>
+            </li>
+            <li class="report-item" onclick="printPdf('Balance Sheet')">
+                <i class="fa-solid fa-file-pdf report-icon icon-pdf"></i><span>Balance Sheet Report</span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // --- DUMMY DATA FOR EXPORTS ---
+    const reportData = [
+        // ASSETS
+        { title: "Asset", type: "header", beg: "5,229,881.90", dr: "0.00", cr: "0.00", end: "5,229,881.90", category: "asset" },
+        { title: "Cash On Hand", type: "item", indent: 1, beg: "1,000.00", dr: "0.00", cr: "0.00", end: "1,000.00", category: "asset" },
+        { title: "Cash In Bank", type: "item", indent: 1, beg: "4,878,881.90", dr: "0.00", cr: "0.00", end: "4,878,881.90", category: "asset" },
+        { title: "Philippine National Bank (PNB)", type: "item", indent: 2, beg: "4,878,881.90", dr: "0.00", cr: "0.00", end: "4,878,881.90", category: "asset" },
+        { title: "PNB Corporate SA #1234 5678 9", type: "item", indent: 3, beg: "4,878,881.90", dr: "0.00", cr: "0.00", end: "4,878,881.90", category: "asset" },
+        { title: "Property, Plant and Equipment", type: "item", indent: 1, beg: "330,000.00", dr: "0.00", cr: "0.00", end: "330,000.00", category: "asset" },
+        { title: "Property and Equipment", type: "item", indent: 2, beg: "330,000.00", dr: "0.00", cr: "0.00", end: "330,000.00", category: "asset" },
+        { title: "Furnitures and Fixtures", type: "item", indent: 3, beg: "80,000.00", dr: "0.00", cr: "0.00", end: "80,000.00", category: "asset" },
+        { title: "Office Equipment", type: "item", indent: 3, beg: "250,000.00", dr: "0.00", cr: "0.00", end: "250,000.00", category: "asset" },
+        { title: "Office equipment - Laptop", type: "item", indent: 4, beg: "250,000.00", dr: "0.00", cr: "0.00", end: "250,000.00", category: "asset" },
+        { title: "Accounts Receivables", type: "item", indent: 1, beg: "20,000.00", dr: "0.00", cr: "0.00", end: "20,000.00", category: "asset" },
+        { title: "Security deposit - Office Rent", type: "item", indent: 2, beg: "20,000.00", dr: "0.00", cr: "0.00", end: "20,000.00", category: "asset" },
+        // LIAB
+        { title: "Liability", type: "header", beg: "31,139.90", dr: "0.00", cr: "0.00", end: "31,139.90", category: "liab" },
+        { title: "Accounts Payable", type: "item", indent: 1, beg: "31,139.90", dr: "0.00", cr: "0.00", end: "31,139.90", category: "liab" },
+        // CAPITAL
+        { title: "Capital", type: "header", beg: "5,198,742.00", dr: "0.00", cr: "0.00", end: "5,198,742.00", category: "capital" },
+        { title: "Paid in Capital", type: "item", indent: 1, beg: "5,000,000.00", dr: "0.00", cr: "0.00", end: "5,000,000.00", category: "capital" },
+        { title: "Paid-In Capital Stock", type: "item", indent: 2, beg: "5,000,000.00", dr: "0.00", cr: "0.00", end: "5,000,000.00", category: "capital" },
+        { title: "Paid in Capital CEO", type: "item", indent: 3, beg: "5,000,000.00", dr: "0.00", cr: "0.00", end: "5,000,000.00", category: "capital" },
+        { title: "Revenue", type: "item", indent: 1, beg: "196,742.00", dr: "0.00", cr: "0.00", end: "196,742.00", category: "capital" },
+        // INCOME
+        { title: "Income", type: "header", beg: "350,000.00", dr: "0.00", cr: "0.00", end: "350,000.00", category: "income" },
+        { title: "Sales and Receivables", type: "item", indent: 1, beg: "350,000.00", dr: "0.00", cr: "0.00", end: "350,000.00", category: "income" },
+        // EXPENSE
+        { title: "Expense", type: "header", beg: "153,258.00", dr: "0.00", cr: "0.00", end: "153,258.00", category: "expense" },
+        { title: "Operating Expenses", type: "item", indent: 1, beg: "53,258.00", dr: "0.00", cr: "0.00", end: "53,258.00", category: "expense" },
+        { title: "Employee Benefits and Compensation", type: "item", indent: 2, beg: "52,258.00", dr: "0.00", cr: "0.00", end: "52,258.00", category: "expense" },
+        { title: "Salaries and Wages", type: "item", indent: 3, beg: "52,258.00", dr: "0.00", cr: "0.00", end: "52,258.00", category: "expense" },
+        { title: "Salaries and Wages - Regular", type: "item", indent: 4, beg: "52,258.00", dr: "0.00", cr: "0.00", end: "52,258.00", category: "expense" },
+        { title: "Office Rental", type: "item", indent: 2, beg: "1,000.00", dr: "0.00", cr: "0.00", end: "1,000.00", category: "expense" },
+        { title: "Other Administrative Expenses", type: "item", indent: 2, beg: "100,000.00", dr: "0.00", cr: "0.00", end: "100,000.00", category: "expense" }
+    ];
+
+    // --- SIDEBAR & DISPLAY LOGIC ---
+    function openReportsSidebar() {
+        document.getElementById('reportsSidebar').classList.add('open');
+        const overlay = document.getElementById('sidebar-overlay');
+        overlay.style.display = 'block';
+        setTimeout(() => overlay.classList.add('show'), 10);
+    }
+
+    function closeReportsSidebar() {
+        document.getElementById('reportsSidebar').classList.remove('open');
+        const overlay = document.getElementById('sidebar-overlay');
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.style.display = 'none', 300);
+    }
+
+    function toggleGroup(groupName) {
+        const rows = document.querySelectorAll(`.group-${groupName}`);
+        const icon = document.getElementById(`icon-${groupName}`);
+        icon.classList.toggle('rotated');
+        rows.forEach(row => { row.style.display = (row.style.display === 'none') ? 'flex' : 'none'; });
+    }
+
+    function switchView(viewName) {
+        const titles = { 'trial': 'TRIAL BALANCE', 'income': 'INCOME STATEMENT', 'balance': 'BALANCE SHEET' };
+        document.getElementById('report-sub-title').textContent = `${titles[viewName]} - (2026-01-19)`;
+        const allHeaders = document.querySelectorAll('.fi-row[onclick]');
+        const allChildren = document.querySelectorAll('.group-asset, .group-liab, .group-capital, .group-income, .group-expense');
+        allHeaders.forEach(h => h.style.display = 'flex');
+        allChildren.forEach(c => c.style.display = 'none');
+        document.querySelectorAll('.toggle-icon').forEach(i => i.classList.add('rotated'));
+        allHeaders.forEach(header => {
+            const isAsset = header.classList.contains('row-type-asset');
+            const isLiab = header.classList.contains('row-type-liability');
+            const isCap = header.classList.contains('row-type-capital');
+            const isInc = header.classList.contains('row-type-income');
+            const isExp = header.classList.contains('row-type-expense');
+            if (viewName === 'income') { if (isAsset || isLiab || isCap) header.style.display = 'none'; } 
+            else if (viewName === 'balance') { if (isInc || isExp) header.style.display = 'none'; }
+        });
+    }
+
+    function showSummaryModal() { document.getElementById('summaryModal').style.display = 'flex'; }
+    function closeSummaryModal() { document.getElementById('summaryModal').style.display = 'none'; }
+    window.onclick = function(event) { if (event.target == document.getElementById('summaryModal')) closeSummaryModal(); }
+
+    // --- EXCEL EXPORT ---
+    function exportExcel(reportType) {
+        let rows = getFilteredData(reportType);
+        let table = `<table border="1"><thead><tr><th colspan="5" style="font-size:16px; font-weight:bold;">${reportType} Report - 2026-01-19</th></tr><tr><th style="width:300px; text-align:left;">Account Title</th><th style="width:100px;">Beginning</th><th style="width:100px;">Debit</th><th style="width:100px;">Credit</th><th style="width:100px;">Ending</th></tr></thead><tbody>`;
+        rows.forEach(row => {
+            let indent = "&nbsp;".repeat(row.indent * 4 || 0);
+            let bold = row.type === 'header' ? 'font-weight:bold;' : '';
+            table += `<tr><td style="${bold}">${indent}${row.title}</td><td style="text-align:right;">${row.beg}</td><td style="text-align:right;">${row.dr}</td><td style="text-align:right;">${row.cr}</td><td style="text-align:right;">${row.end}</td></tr>`;
+        });
+        table += `</tbody></table>`;
+        const blob = new Blob([table], { type: 'application/vnd.ms-excel' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${reportType}_2026-01-19.xls`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
+    // --- PDF PRINT (Broken strings fixed) ---
+    function printPdf(reportType) {
+        let rows = getFilteredData(reportType);
+        const printWindow = window.open('', '_blank');
+        
+        let part1 = '<!DOCTYPE html><html><head><title>' + reportType + ' Report</title>';
+        let style = '<style>body{font-family:"Segoe UI",sans-serif;padding:40px;color:#333}.header-strip{display:flex;justify-content:space-between;font-size:0.85rem;border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:20px}.main-title{font-size:1.8rem;font-weight:700;color:#2c3e50;margin-bottom:5px}.sub-details{font-size:0.9rem;color:#666;margin-bottom:30px}table{width:100%;border-collapse:collapse;font-size:0.85rem}th{text-align:right;padding:10px 5px;border-bottom:1px solid #ccc;font-weight:700}th:first-child{text-align:left}td{padding:8px 5px;border-bottom:1px solid #eee;text-align:right}td:first-child{text-align:left}.indent-1{padding-left:20px}.indent-2{padding-left:40px}.indent-3{padding-left:60px}.indent-4{padding-left:80px}.header-row{font-weight:700;background-color:#f9f9f9}</style>';
+        
+        let content = '<' + '/head><body>';
+        content += '<div class="header-strip"><div>Winnolas</div><div>Generated Date: 2026-01-19 03:03 PM</div></div>';
+        content += '<div class="main-title">' + reportType + ' Report</div>';
+        // content += '<div class="sub-details">Ronnie Rickets School of Backflips Inc. | rrsob_admin@codexdevops.com<br>Date: 2025-01-17</div>';
+        content += '<table><thead><tr><th>Account Title</th><th>Beginning</th><th>Debit</th><th>Credit</th><th>Ending</th></tr></thead><tbody>';
+        
+        let rowsHtml = '';
+        rows.forEach(row => {
+            let rowClass = row.type === 'header' ? 'header-row' : '';
+            let indentClass = row.indent ? `indent-${row.indent}` : '';
+            rowsHtml += `<tr class="${rowClass}"><td class="${indentClass}">${row.title}</td><td>${row.beg}</td><td>${row.dr}</td><td>${row.cr}</td><td>${row.end}</td></tr>`;
+        });
+
+        let footer = '</tbody></table><' + '/body><' + '/html>';
+
+        printWindow.document.write(part1 + style + content + rowsHtml + footer);
+        printWindow.document.close();
+        
+        setTimeout(() => { printWindow.print(); }, 500);
+    }
+
+    function getFilteredData(reportType) {
+        if (reportType === 'Trial Balance') return reportData;
+        return reportData.filter(item => {
+            if (reportType === 'Income Statement') return item.category === 'income' || item.category === 'expense';
+            if (reportType === 'Balance Sheet') return item.category === 'asset' || item.category === 'liab' || item.category === 'capital';
+            return false;
+        });
+    }
+</script>
+
+</body>
+</html>
