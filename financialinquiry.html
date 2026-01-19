@@ -26,7 +26,7 @@
         .fi-row { display: flex; justify-content: space-between; padding: 12px 30px; border-bottom: 1px solid #f9f9f9; align-items: center; }
         .fi-row:hover { background-color: #f8fbff; }
 
-        .fi-acc-name { font-size: 0.9rem; color: #03a9f4; font-weight: 500; }
+        .fi-acc-name { font-size: 0.9rem; color: #7e7e7e; font-weight: 500; }
         .fi-acc-name.header-row { color: #333; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 15px; user-select: none; } 
         
         .toggle-icon { transition: transform 0.2s ease; font-size: 0.8rem; color: #555; }
@@ -124,6 +124,82 @@
             transition: opacity 0.3s;
         }
         .sidebar-overlay.show { display: block; opacity: 1; }
+
+        /* --- FILTER MODAL STYLES --- */
+        .filter-modal-content {
+            width: 550px;
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .filter-title { font-weight: 700; font-size: 1rem; color: #333; display: flex; align-items: center; gap: 8px; }
+        .filter-title i { color: #7f8c8d; }
+
+        .filter-body { padding: 20px; }
+
+        .filter-group { margin-bottom: 20px; }
+        .filter-label { display: block; font-size: 0.9rem; color: #555; margin-bottom: 8px; font-weight: 500; }
+
+        .filter-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: #333;
+            outline: none;
+        }
+        .filter-input:focus { border-color: #004696; }
+
+        /* Custom Checkbox Row */
+        .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+        .custom-check {
+            width: 18px; height: 18px;
+            border: 2px solid #004696;
+            border-radius: 3px;
+            display: flex; justify-content: center; align-items: center;
+            color: #fff; background-color: #004696; font-size: 0.7rem;
+            cursor: pointer;
+        }
+        .check-label { font-size: 0.95rem; color: #333; cursor: pointer; }
+
+        /* Branch Table Styling */
+        .branch-table { width: 100%; border-collapse: collapse; border: 1px solid #eee; }
+        .branch-header-row { background-color: #fafafa; border-bottom: 2px solid #eee; }
+        .branch-header-row th { text-align: left; padding: 10px; font-size: 0.85rem; color: #555; font-weight: 700; }
+        .branch-row td { padding: 10px; border-bottom: 1px solid #eee; font-size: 0.9rem; color: #333; }
+        .branch-row:last-child td { border-bottom: none; }
+        .branch-check { width: 16px; height: 16px; cursor: pointer; accent-color: #004696; }
+
+        .filter-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .btn-apply {
+            background-color: #004696;
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.95rem;
+        }
+        .btn-apply:hover { background-color: #000879; }
     </style>
 </head>
 <body>
@@ -145,7 +221,7 @@
 </header>
 
 <div class="page-header-strip">
-    <h1 class="page-title" id="main-page-title">FINANCIAL INQUIRY - 2026-01-19</h1>
+    <h1 class="page-title" id="main-page-title">FINANCIAL INQUIRY | 2026-01-19</h1>
     <div class="header-actions-group">
         <div class="action-btn" onclick="openReportsSidebar()">
             <div class="action-circle"><i class="fa-solid fa-file-lines"></i></div>
@@ -154,7 +230,7 @@
         <div class="action-btn" onclick="switchView('trial')"><div class="action-circle"><i class="fa-solid fa-scale-balanced"></i></div><span class="action-label">Trial<br>Balance</span></div>
         <div class="action-btn" onclick="switchView('income')"><div class="action-circle"><i class="fa-solid fa-file-invoice-dollar"></i></div><span class="action-label">Income<br>Statement</span></div>
         <div class="action-btn" onclick="switchView('balance')"><div class="action-circle"><i class="fa-solid fa-building-columns"></i></div><span class="action-label">Balance<br>Sheet</span></div>
-        <div class="action-btn" onclick="showSummaryModal()"><div class="action-circle"><i class="fa-solid fa-list"></i></div><span class="action-label">Summarize</span></div>
+        <div class="action-btn" onclick="showSummaryModal()"><div class="action-circle"><i class="fa-solid fa-calculator"></i></div><span class="action-label">Summary</span></div>
         <a href="index.html" style="text-decoration: none;"><div class="action-btn close-btn"><div class="action-circle"><i class="fa-solid fa-xmark"></i></div><span class="action-label">Close</span></div></a>
     </div>
 </div>
@@ -162,8 +238,8 @@
 <main class="main-wrapper">
     <div class="report-card">
         <div class="report-sub-header">
-            <div class="report-sub-title" id="report-sub-title">TRIAL BALANCE - (2026-01-19)</div>
-            <button class="btn-filters"><i class="fa-solid fa-filter"></i> FILTERS</button>
+            <div class="report-sub-title" id="report-sub-title">TRIAL BALANCE | 2026-01-19</div>
+            <button class="btn-filters" onclick="openFilterModal()"><i class="fa-solid fa-filter"></i> FILTERS</button>
         </div>
         <div class="fi-table-header">
             <div style="flex:1; text-align: center;">Account Title</div>
@@ -224,10 +300,6 @@
             <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-2">Other Administrative Expenses</div><div class="fi-col-values"><div class="fi-val">100,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">100,000.00</div></div></div>
         </div>
 
-        <div class="fi-total-row">
-            <div class="fi-acc-name header-row">Total</div>
-            <div class="fi-col-values"><div class="fi-val">10,963,021.80</div><div class="fi-val fi-val-bold">0.00</div><div class="fi-val fi-val-bold">0.00</div><div class="fi-val fi-val-bold">10,963,021.80</div></div>
-        </div>
     </div>
 </main>
 
@@ -282,6 +354,60 @@
                 <i class="fa-solid fa-file-pdf report-icon icon-pdf"></i><span>Balance Sheet Report</span>
             </li>
         </ul>
+    </div>
+</div>
+
+<div id="filterModal" class="modal-overlay" style="z-index: 3100;">
+    <div class="filter-modal-content">
+        <div class="filter-header">
+            <div class="filter-title"><i class="fa-solid fa-filter"></i> Filter List</div>
+            <div class="close-modal-btn" onclick="closeFilterModal()" style="color:#777; cursor:pointer; font-size:1.2rem;">&times;</div>
+        </div>
+        <div class="filter-body">
+            <div class="filter-group">
+                <label class="filter-label">Date</label>
+                <input type="date" class="filter-input" value="2025-01-17">
+            </div>
+            
+            <div class="checkbox-row">
+                <div class="custom-check"><i class="fa-solid fa-check"></i></div>
+                <div class="check-label">Exclude Accounts with Zero Balance</div>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Level</label>
+                <input type="number" class="filter-input" value="0">
+            </div>
+
+            <table class="branch-table">
+                <thead class="branch-header-row">
+                    <tr>
+                        <th style="width: 30px;"><input type="checkbox" class="branch-check"></th>
+                        <th>All Branches</th>
+                        <th style="text-align: right;">Branch</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="branch-row">
+                        <td><input type="checkbox" class="branch-check" checked></td>
+                        <td colspan="2" style="display:flex; justify-content:space-between; align-items:center;">
+                            <span></span>
+                            <span>Main Office</span>
+                        </td>
+                    </tr>
+                    <tr class="branch-row">
+                        <td><input type="checkbox" class="branch-check"></td>
+                        <td colspan="2" style="display:flex; justify-content:space-between; align-items:center;">
+                            <span></span>
+                            <span>Leg 1 Comedy Ballet School</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="filter-footer">
+            <button class="btn-apply" onclick="closeFilterModal()"><i class="fa-solid fa-check"></i> Apply</button>
+        </div>
     </div>
 </div>
 
@@ -347,7 +473,7 @@
 
     function switchView(viewName) {
         const titles = { 'trial': 'TRIAL BALANCE', 'income': 'INCOME STATEMENT', 'balance': 'BALANCE SHEET' };
-        document.getElementById('report-sub-title').textContent = `${titles[viewName]} - (2026-01-19)`;
+        document.getElementById('report-sub-title').textContent = `${titles[viewName]} | 2026-01-19`;
         const allHeaders = document.querySelectorAll('.fi-row[onclick]');
         const allChildren = document.querySelectorAll('.group-asset, .group-liab, .group-capital, .group-income, .group-expense');
         allHeaders.forEach(h => h.style.display = 'flex');
@@ -366,7 +492,25 @@
 
     function showSummaryModal() { document.getElementById('summaryModal').style.display = 'flex'; }
     function closeSummaryModal() { document.getElementById('summaryModal').style.display = 'none'; }
-    window.onclick = function(event) { if (event.target == document.getElementById('summaryModal')) closeSummaryModal(); }
+
+    function openFilterModal() {
+    document.getElementById('filterModal').style.display = 'flex';
+    }
+
+    function closeFilterModal() {
+        document.getElementById('filterModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) { 
+    // Close Summary Modal if clicked outside
+    if (event.target == document.getElementById('summaryModal')) {
+        closeSummaryModal();
+    }
+    // Close Filter Modal if clicked outside
+    if (event.target == document.getElementById('filterModal')) {
+        closeFilterModal();
+    }
+}
 
     // --- EXCEL EXPORT ---
     function exportExcel(reportType) {

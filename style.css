@@ -101,8 +101,8 @@ body {
 }
 
 /* Hover effects */
-.action-btn:hover { color: #0091ea; }
-.action-btn.close-btn:hover { color: #e74c3c;  }
+.action-btn:hover { color: #555; }
+.action-btn.close-btn:hover { color: #555;  }
 
 .action-circle {
     border: 1px solid currentColor;
