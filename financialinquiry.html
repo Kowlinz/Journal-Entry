@@ -250,54 +250,131 @@
                 <div style="width: 100px; text-align: center;">Ending</div>
             </div>
         </div>
+
         <div id="inquiry-rows">
-            <div class="fi-row row-type-asset" onclick="toggleGroup('asset')">
-                <div class="fi-acc-name header-row"><i id="icon-asset" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Asset</div>
+            <div class="fi-row row-type-asset">
+                <div class="fi-acc-name header-row" style="cursor: default;">Asset</div>
                 <div class="fi-col-values"><div class="fi-val">5,229,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,229,881.90</div></div>
             </div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-1">Cash On Hand</div><div class="fi-col-values"><div class="fi-val">1,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">1,000.00</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-1">Cash In Bank</div><div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-2">Philippine National Bank (PNB)</div><div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-3">PNB Corporate SA #1234 5678 9</div><div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-1">Property, Plant and Equipment</div><div class="fi-col-values"><div class="fi-val">330,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">330,000.00</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-2">Property and Equipment</div><div class="fi-col-values"><div class="fi-val">330,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">330,000.00</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-3">Furnitures and Fixtures</div><div class="fi-col-values"><div class="fi-val">80,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">80,000.00</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-3">Office Equipment</div><div class="fi-col-values"><div class="fi-val">250,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">250,000.00</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-4">Office equipment - Laptop</div><div class="fi-col-values"><div class="fi-val">250,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">250,000.00</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-1">Accounts Receivables</div><div class="fi-col-values"><div class="fi-val">20,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">20,000.00</div></div></div>
-            <div class="fi-row row-type-asset group-asset" style="display: none;"><div class="fi-acc-name indent-2">Security deposit - Office Rent</div><div class="fi-col-values"><div class="fi-val">20,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">20,000.00</div></div></div>
 
-            <div class="fi-row row-type-liability" onclick="toggleGroup('liab')">
-                <div class="fi-acc-name header-row"><i id="icon-liab" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Liability</div>
+            <div class="fi-row row-type-asset">
+                <div class="fi-acc-name indent-1">Cash On Hand</div>
+                <div class="fi-col-values"><div class="fi-val">1,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">1,000.00</div></div>
+            </div>
+
+            <div class="fi-row row-type-asset" onclick="toggleGroup('cib')" style="cursor: pointer;">
+                <div class="fi-acc-name indent-1"><i id="icon-cib" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Cash In Bank</div>
+                <div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div>
+            </div>
+            
+            <div class="fi-row row-type-asset group-cib" style="display: none;">
+                <div class="fi-acc-name indent-2">Philippine National Bank (PNB)</div>
+                <div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div>
+            </div>
+            <div class="fi-row row-type-asset group-cib" style="display: none;">
+                <div class="fi-acc-name indent-3">PNB Corporate SA #1234 5678 9</div>
+                <div class="fi-col-values"><div class="fi-val">4,878,881.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">4,878,881.90</div></div>
+            </div>
+
+            <div class="fi-row row-type-asset" onclick="toggleGroup('ppe')" style="cursor: pointer;">
+                <div class="fi-acc-name indent-1"><i id="icon-ppe" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Property, Plant and Equipment</div>
+                <div class="fi-col-values"><div class="fi-val">330,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">330,000.00</div></div>
+            </div>
+
+            <div class="fi-row row-type-asset group-ppe" style="display: none;">
+                <div class="fi-acc-name indent-2">Property and Equipment</div>
+                <div class="fi-col-values"><div class="fi-val">330,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">330,000.00</div></div>
+            </div>
+            <div class="fi-row row-type-asset group-ppe" style="display: none;">
+                <div class="fi-acc-name indent-3">Furnitures and Fixtures</div>
+                <div class="fi-col-values"><div class="fi-val">80,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">80,000.00</div></div>
+            </div>
+            
+            <div class="fi-row row-type-asset group-ppe" onclick="toggleGroup('office')" style="cursor: pointer; display: none;">
+                <div class="fi-acc-name indent-3"><i id="icon-office" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Office Equipment</div>
+                <div class="fi-col-values"><div class="fi-val">250,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">250,000.00</div></div>
+            </div>
+            <div class="fi-row row-type-asset group-office" style="display: none;">
+                <div class="fi-acc-name indent-4">Office equipment - Laptop</div>
+                <div class="fi-col-values"><div class="fi-val">250,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">250,000.00</div></div>
+            </div>
+
+            <div class="fi-row row-type-asset">
+                <div class="fi-acc-name indent-1">Accounts Receivables</div>
+                <div class="fi-col-values"><div class="fi-val">20,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">20,000.00</div></div>
+            </div>
+            <div class="fi-row row-type-asset">
+                <div class="fi-acc-name indent-2">Security deposit - Office Rent</div>
+                <div class="fi-col-values"><div class="fi-val">20,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">20,000.00</div></div>
+            </div>
+
+            <div class="fi-row row-type-liability">
+                <div class="fi-acc-name header-row" style="cursor: default;">Liability</div>
                 <div class="fi-col-values"><div class="fi-val">31,139.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">31,139.90</div></div>
             </div>
-            <div class="fi-row row-type-liability group-liab" style="display: none;"><div class="fi-acc-name indent-1">Accounts Payable</div><div class="fi-col-values"><div class="fi-val">31,139.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">31,139.90</div></div></div>
+            <div class="fi-row row-type-liability" onclick="toggleGroup('ap')" style="cursor: pointer;">
+                <div class="fi-acc-name indent-1"><i id="icon-ap" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Accounts Payable</div>
+                <div class="fi-col-values"><div class="fi-val">31,139.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">31,139.90</div></div>
+            </div>
+            <div class="fi-row row-type-liability group-ap" style="display: none;">
+                <div class="fi-acc-name indent-2">AP - Trade</div> <div class="fi-col-values"><div class="fi-val">31,139.90</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">31,139.90</div></div>
+            </div>
 
-            <div class="fi-row row-type-capital" onclick="toggleGroup('capital')">
-                <div class="fi-acc-name header-row"><i id="icon-capital" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Capital</div>
+            <div class="fi-row row-type-capital">
+                <div class="fi-acc-name header-row" style="cursor: default;">Capital</div>
                 <div class="fi-col-values"><div class="fi-val">5,198,742.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,198,742.00</div></div>
             </div>
-            <div class="fi-row row-type-capital group-capital" style="display: none;"><div class="fi-acc-name indent-1">Paid in Capital</div><div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div></div>
-            <div class="fi-row row-type-capital group-capital" style="display: none;"><div class="fi-acc-name indent-2">Paid-In Capital Stock</div><div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div></div>
-            <div class="fi-row row-type-capital group-capital" style="display: none;"><div class="fi-acc-name indent-3">Paid in Capital CEO</div><div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div></div>
-            <div class="fi-row row-type-capital group-capital" style="display: none;"><div class="fi-acc-name indent-1">Revenue</div><div class="fi-col-values"><div class="fi-val">196,742.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">196,742.00</div></div></div>
+            <div class="fi-row row-type-capital" onclick="toggleGroup('pic')" style="cursor: pointer;">
+                <div class="fi-acc-name indent-1"><i id="icon-pic" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Paid in Capital</div>
+                <div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div>
+            </div>
+            <div class="fi-row row-type-capital group-pic" style="display: none;">
+                <div class="fi-acc-name indent-2">Paid-In Capital Stock</div>
+                <div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div>
+            </div>
+            <div class="fi-row row-type-capital group-pic" style="display: none;">
+                <div class="fi-acc-name indent-3">Paid in Capital CEO</div>
+                <div class="fi-col-values"><div class="fi-val">5,000,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">5,000,000.00</div></div>
+            </div>
+            <div class="fi-row row-type-capital">
+                <div class="fi-acc-name indent-1">Revenue</div>
+                <div class="fi-col-values"><div class="fi-val">196,742.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">196,742.00</div></div>
+            </div>
 
-            <div class="fi-row row-type-income" onclick="toggleGroup('income')">
-                <div class="fi-acc-name header-row"><i id="icon-income" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Income</div>
+            <div class="fi-row row-type-income">
+                <div class="fi-acc-name header-row" style="cursor: default;">Income</div>
                 <div class="fi-col-values"><div class="fi-val">350,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">350,000.00</div></div>
             </div>
-            <div class="fi-row row-type-income group-income" style="display: none;"><div class="fi-acc-name indent-1">Sales and Receivables</div><div class="fi-col-values"><div class="fi-val">350,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">350,000.00</div></div></div>
+            <div class="fi-row row-type-income">
+                <div class="fi-acc-name indent-1">Sales and Receivables</div>
+                <div class="fi-col-values"><div class="fi-val">350,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">350,000.00</div></div>
+            </div>
 
-            <div class="fi-row row-type-expense" onclick="toggleGroup('expense')">
-                <div class="fi-acc-name header-row"><i id="icon-expense" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Expense</div>
+            <div class="fi-row row-type-expense">
+                <div class="fi-acc-name header-row" style="cursor: default;">Expense</div>
                 <div class="fi-col-values"><div class="fi-val">153,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">153,258.00</div></div>
             </div>
-            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-1">Operating Expenses</div><div class="fi-col-values"><div class="fi-val">53,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">53,258.00</div></div></div>
-            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-2">Employee Benefits and Compensation</div><div class="fi-col-values"><div class="fi-val">52,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">52,258.00</div></div></div>
-            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-3">Salaries and Wages</div><div class="fi-col-values"><div class="fi-val">52,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">52,258.00</div></div></div>
-            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-4">Salaries and Wages - Regular</div><div class="fi-col-values"><div class="fi-val">52,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">52,258.00</div></div></div>
-            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-2">Office Rental</div><div class="fi-col-values"><div class="fi-val">1,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">1,000.00</div></div></div>
-            <div class="fi-row row-type-expense group-expense" style="display: none;"><div class="fi-acc-name indent-2">Other Administrative Expenses</div><div class="fi-col-values"><div class="fi-val">100,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">100,000.00</div></div></div>
+            
+            <div class="fi-row row-type-expense" onclick="toggleGroup('opex')" style="cursor: pointer;">
+                <div class="fi-acc-name indent-1"><i id="icon-opex" class="fa-solid fa-chevron-down toggle-icon rotated"></i> Operating Expenses</div>
+                <div class="fi-col-values"><div class="fi-val">53,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">53,258.00</div></div>
+            </div>
+            <div class="fi-row row-type-expense group-opex" style="display: none;">
+                <div class="fi-acc-name indent-2">Employee Benefits</div>
+                <div class="fi-col-values"><div class="fi-val">52,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">52,258.00</div></div>
+            </div>
+            <div class="fi-row row-type-expense group-opex" style="display: none;">
+                <div class="fi-acc-name indent-3">Salaries and Wages</div>
+                <div class="fi-col-values"><div class="fi-val">52,258.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">52,258.00</div></div>
+            </div>
+            <div class="fi-row row-type-expense group-opex" style="display: none;">
+                <div class="fi-acc-name indent-2">Office Rental</div>
+                <div class="fi-col-values"><div class="fi-val">1,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">1,000.00</div></div>
+            </div>
+            <div class="fi-row row-type-expense group-opex" style="display: none;">
+                <div class="fi-acc-name indent-2">Other Admin Expenses</div>
+                <div class="fi-col-values"><div class="fi-val">100,000.00</div><div class="fi-val">0.00</div><div class="fi-val">0.00</div><div class="fi-val">100,000.00</div></div>
+            </div>
         </div>
 
     </div>
@@ -472,23 +549,36 @@
     }
 
     function switchView(viewName) {
-        const titles = { 'trial': 'TRIAL BALANCE', 'income': 'INCOME STATEMENT', 'balance': 'BALANCE SHEET' };
-        document.getElementById('report-sub-title').textContent = `${titles[viewName]} | 2026-01-19`;
-        const allHeaders = document.querySelectorAll('.fi-row[onclick]');
-        const allChildren = document.querySelectorAll('.group-asset, .group-liab, .group-capital, .group-income, .group-expense');
-        allHeaders.forEach(h => h.style.display = 'flex');
-        allChildren.forEach(c => c.style.display = 'none');
-        document.querySelectorAll('.toggle-icon').forEach(i => i.classList.add('rotated'));
-        allHeaders.forEach(header => {
-            const isAsset = header.classList.contains('row-type-asset');
-            const isLiab = header.classList.contains('row-type-liability');
-            const isCap = header.classList.contains('row-type-capital');
-            const isInc = header.classList.contains('row-type-income');
-            const isExp = header.classList.contains('row-type-expense');
-            if (viewName === 'income') { if (isAsset || isLiab || isCap) header.style.display = 'none'; } 
-            else if (viewName === 'balance') { if (isInc || isExp) header.style.display = 'none'; }
-        });
-    }
+            const titles = { 'trial': 'TRIAL BALANCE', 'income': 'INCOME STATEMENT', 'balance': 'BALANCE SHEET' };
+            document.getElementById('report-sub-title').textContent = `${titles[viewName]} - (2026-01-19)`;
+            
+            // 1. Reset: Show ALL rows first
+            const allRows = document.querySelectorAll('.fi-row');
+            allRows.forEach(row => row.style.display = 'flex');
+
+            // 2. Hide ALL Groups (Default to collapsed)
+            const groups = document.querySelectorAll('.group-cib, .group-ppe, .group-office, .group-ap, .group-pic, .group-opex');
+            groups.forEach(g => g.style.display = 'none');
+
+            // 3. Reset Icons to Rotated (Pointing Right)
+            document.querySelectorAll('.toggle-icon').forEach(i => i.classList.add('rotated'));
+
+            // 4. Filter by View Type (Hide specific parent categories)
+            allRows.forEach(row => {
+                const isAsset = row.classList.contains('row-type-asset');
+                const isLiab = row.classList.contains('row-type-liability');
+                const isCap = row.classList.contains('row-type-capital');
+                const isInc = row.classList.contains('row-type-income');
+                const isExp = row.classList.contains('row-type-expense');
+
+                if (viewName === 'income') {
+                    if (isAsset || isLiab || isCap) row.style.display = 'none';
+                } 
+                else if (viewName === 'balance') {
+                    if (isInc || isExp) row.style.display = 'none';
+                }
+            });
+        }
 
     function showSummaryModal() { document.getElementById('summaryModal').style.display = 'flex'; }
     function closeSummaryModal() { document.getElementById('summaryModal').style.display = 'none'; }
