@@ -29,9 +29,9 @@
     <h1 class="page-title" id="proof-page-title">PROOFSHEET - LOADING...</h1>
     
     <div class="header-actions-group">
-        <div class="action-btn">
+        <div class="action-btn" onclick="openReportsSidebar()">
             <div class="action-circle"><i class="fa-solid fa-file-lines"></i></div>
-            <span class="action-label">Report</span>
+            <span class="action-label">Reports</span>
         </div>
 
         <a href="financialinquiry.html" style="text-decoration: none;">
@@ -78,6 +78,32 @@
 
 </main>
 
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeReportsSidebar()"></div>
+
+<div id="reportsSidebar" class="reports-sidebar">
+    <div class="sidebar-header">
+        <h3><i class="fa-solid fa-file-invoice"></i> REPORTS</h3>
+        <div class="sidebar-close" onclick="closeReportsSidebar()"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+    <div class="sidebar-content">
+        
+        <div class="report-section-title">Export</div>
+        
+        <ul class="report-list">
+            <li class="report-item" onclick="exportJournalExcel()">
+                <i class="fa-solid fa-file-excel report-icon icon-excel"></i>
+                <span>Proofsheet Excel Report</span>
+            </li>
+            
+            <li class="report-item" onclick="printJournalPdf()">
+                <i class="fa-solid fa-file-pdf report-icon icon-pdf"></i>
+                <span>Proofsheet PDF Report</span>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         generateProofsheet();
@@ -86,7 +112,7 @@
     function generateProofsheet() {
         const rowsContainer = document.getElementById('proofsheet-rows');
         const emptyState = document.getElementById('proof-empty-state');
-        const pageTitle = document.getElementById('proof-page-title'); // Targeted H1
+        const pageTitle = document.getElementById('proof-page-title'); 
         const statusText = document.getElementById('proof-status-text');
         const totalDrEl = document.getElementById('proof-total-dr');
         const totalCrEl = document.getElementById('proof-total-cr');
@@ -98,7 +124,6 @@
 
         // 2. FIND MOST RECENT DATE
         if (allTickets.length > 0) {
-            // Sort by Date Descending
             const sorted = allTickets.sort((a,b) => {
                 return new Date(b.date) - new Date(a.date);
             });
@@ -108,7 +133,6 @@
             targetDate = now.toISOString().split('T')[0];
         }
 
-        // UPDATE TITLE with Date
         pageTitle.textContent = `PROOFSHEET - (${targetDate})`;
 
         // 3. FILTER TICKETS
@@ -173,6 +197,46 @@
             totalDrEl.className = "proof-val-total val-unbalanced";
             totalCrEl.className = "proof-val-total val-unbalanced";
         }
+    }
+
+    // --- SIDEBAR LOGIC ---
+    function openReportsSidebar() {
+        document.getElementById('reportsSidebar').classList.add('open');
+        const overlay = document.getElementById('sidebar-overlay');
+        overlay.style.display = 'block';
+        setTimeout(() => overlay.classList.add('show'), 10);
+    }
+
+    function closeReportsSidebar() {
+        document.getElementById('reportsSidebar').classList.remove('open');
+        const overlay = document.getElementById('sidebar-overlay');
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.style.display = 'none', 300);
+    }
+
+    // --- ACTIONS FOR REPORT ITEMS ---
+    function exportJournalExcel() {
+        closeReportsSidebar(); 
+        showModal({
+            type: 'success', 
+            title: 'Export Successful',
+            message: 'The Proofsheet Excel file has been successfully generated.',
+            onConfirm: () => {
+                console.log('Excel download confirmed.');
+            }
+        });
+    }
+
+    function printJournalPdf() {
+        closeReportsSidebar();
+        showModal({
+            type: 'success',
+            title: 'Report Ready',
+            message: 'The Proofsheet Report is ready. Click <b>Confirm</b> to view it.',
+            onConfirm: () => {
+                console.log('PDF download confirmed.');
+            }
+        });
     }
 </script>
 

@@ -28,7 +28,7 @@
 </header>
 
 <div class="page-header-strip">
-    <h1 class="page-title">NEW TICKET ENTRY</h1>
+    <h1 class="page-title" id="main-page-title">NEW TICKET ENTRY</h1>
     
     <div class="header-actions-group">
         <div class="action-btn" id="add-ticket-btn">
@@ -84,7 +84,7 @@
     <div class="modal-content">
         
         <div class="modal-header">
-            <h3>Add Ticket</h3>
+            <h3 id="ticket-modal-title">Add Ticket</h3>
             <div class="close-modal-btn">&times;</div>
         </div>
 
@@ -93,21 +93,21 @@
             <div class="account-select-box">
                 <i class="fa-solid fa-triangle-exclamation warning-icon"></i>
                 <span class="select-text">No Account Selected</span>
+            </div>
+
+            <div class="dr-cr-row">
+                
+                <div class="input-group-wrapper">
+                    <span class="input-label label-dr">Dr-</span>
+                    <input type="number" id="dr-input" class="amount-input" placeholder="0.00">
                 </div>
 
-                <div class="dr-cr-row">
-                    
-                    <div class="input-group-wrapper">
-                        <span class="input-label label-dr">Dr-</span>
-                        <input type="number" id="dr-input" class="amount-input" placeholder="0.00">
-                    </div>
-
-                    <div class="input-group-wrapper">
-                        <span class="input-label label-cr">Cr+</span>
-                        <input type="number" id="cr-input" class="amount-input" placeholder="0.00">
-                    </div>
-
+                <div class="input-group-wrapper">
+                    <span class="input-label label-cr">Cr+</span>
+                    <input type="number" id="cr-input" class="amount-input" placeholder="0.00">
                 </div>
+
+            </div>
 
             <textarea class="remarks-box" placeholder="Add remarks to better describe your entry."></textarea>
 
@@ -115,7 +115,7 @@
 
         <div class="modal-footer">
             <button class="btn-new-cancel">Cancel</button>
-            <button class="btn-new-confirm">Add a Ticket</button>
+            <button class="btn-new-confirm" id="modal-action-btn">Add a Ticket</button>
         </div>
 
     </div>
@@ -123,68 +123,54 @@
 
 <div id="accountSelectionModal" class="modal-overlay" style="z-index: 2100;">
     <div class="modal-content" style="width: 700px; padding: 20px 25px;">
-        
         <div class="modal-header">
             <h3>Select Account</h3>
             <div class="close-select-modal-btn">&times;</div>
         </div>
-
         <div class="account-search-area">
             <input type="text" placeholder="Search accounts..." class="account-search-input">
             <button class="btn-search-action"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
         </div>
-
         <div class="account-list-count">
             <i class="fa-solid fa-list-ul"></i> Found 5 account(s)
         </div>
-
         <div class="account-list-container">
-            
             <div class="account-item" data-name="Cash On Hand">
                 <div class="acc-name">Cash On Hand</div>
                 <div class="acc-bread">Asset > Cash on Hand</div>
             </div>
-
             <div class="account-item" data-name="Checks & Other Cash Items (COCI)">
                 <div class="acc-name">Checks & Other Cash Items (COCI)</div>
                 <div class="acc-bread">Asset > Checks & Other Cash Items (COCI)</div>
             </div>
-
             <div class="account-item child-indent" data-name="PNB Corporate SA #1234 5678 9">
                 <div class="acc-name">PNB Corporate SA #1234 5678 9</div>
                 <div class="acc-bread">Asset > Cash In Bank > Philippine National Bank (PNB) > PNB Corporate SA #1234 5678 9</div>
             </div>
-
             <div class="account-item child-indent" data-name="Branch PNB Corporate SA #9876 5432 1">
                 <div class="acc-name">Branch PNB Corporate SA #9876 5432 1</div>
                 <div class="acc-bread">Asset > Cash In Bank > Philippine National Bank (PNB) > Branch PNB Corporate SA #9876 5432 1</div>
             </div>
-
             <div class="account-item" data-name="Unclassified Assets">
                 <div class="acc-name">Unclassified Assets</div>
                 <div class="acc-bread">Asset > Unclassified Assets</div>
             </div>
-
         </div>
-
         <div class="modal-footer" style="padding-top: 15px; align-items: center;">
             <div class="info-text">
                 <i class="fa-solid fa-circle-info"></i> Click on an account to select it
             </div>
             <button class="btn-new-cancel close-select-action">Cancel</button>
         </div>
-
     </div>
 </div>
 
 <div id="dateSelectionModal" class="modal-overlay" style="z-index: 2200;">
     <div class="modal-content" style="width: 450px;">
-        
         <div class="modal-header">
             <h3>Select Transaction Date</h3>
             <div class="close-date-modal-btn close-modal-btn">&times;</div>
         </div>
-
         <div class="modal-body">
             <label style="display: block; font-weight: 600; margin-bottom: 8px; color: #444;">Transaction Date</label>
             <input type="date" id="transaction-date-input" class="amount-input" style="width: 100%; border-left: 1px solid #ddd;">
@@ -192,14 +178,12 @@
                 <i class="fa-solid fa-circle-exclamation"></i> Please select a valid date.
             </p>
         </div>
-
         <div class="modal-footer">
             <button class="btn-new-cancel close-date-action">Cancel</button>
             <button id="btn-save-final" class="btn-new-confirm">
                 <i class="fa-solid fa-check"></i> Save
             </button>
         </div>
-
     </div>
 </div>
 
@@ -218,6 +202,35 @@
 </div>
 
 <script src="script.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Get the ID stored from index.html
+        const editingId = localStorage.getItem('winnolas_editing_id');
+        
+        if (editingId) {
+            // 2. Update Page Header with Ticket Number
+            const pageTitle = document.getElementById('main-page-title');
+            if (pageTitle) {
+                pageTitle.textContent = `EDIT TICKET NO. ${editingId}`;
+            }
+
+            // 3. Update Modal Header with Ticket Number
+            const modalTitle = document.getElementById('ticket-modal-title');
+            if (modalTitle) {
+                modalTitle.textContent = `Edit Ticket`;
+            }
+
+            // 4. Update Button Text
+            const actionBtn = document.getElementById('modal-action-btn');
+            if (actionBtn) {
+                actionBtn.textContent = "Update Ticket";
+            }
+            
+            console.log(`Editing Mode Active for Ticket: ${editingId}`);
+        }
+    });
+</script>
 
 </body>
 </html>

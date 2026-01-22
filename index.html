@@ -28,12 +28,10 @@
 <div class="page-header-strip">
     <h1 class="page-title">JOURNAL ENTRY</h1>
     <div class="header-actions-group">
-        <a href="report.html" target="_blank" style="text-decoration: none;">
-            <div class="action-btn">
-                <div class="action-circle"><i class="fa-solid fa-file-lines"></i></div>
-                <span class="action-label">Reports</span>
-            </div>
-        </a>
+        <div class="action-btn" onclick="openReportsSidebar()">
+            <div class="action-circle"><i class="fa-solid fa-file-lines"></i></div>
+            <span class="action-label">Reports</span>
+        </div>
         <a href="new-ticket.html" style="text-decoration: none;">
             <div class="action-btn"><div class="action-circle"><i class="fa-solid fa-plus"></i></div>
             <span class="action-label">New Ticket</span></div>
@@ -98,6 +96,32 @@
     </div>
 </div>
 
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeReportsSidebar()"></div>
+
+<div id="reportsSidebar" class="reports-sidebar">
+    <div class="sidebar-header">
+        <h3><i class="fa-solid fa-file-invoice"></i> REPORTS</h3>
+        <div class="sidebar-close" onclick="closeReportsSidebar()"><i class="fa-solid fa-xmark"></i></div>
+    </div>
+    <div class="sidebar-content">
+        
+        <div class="report-section-title">Export</div>
+        
+        <ul class="report-list">
+            <li class="report-item" onclick="exportJournalExcel()">
+                <i class="fa-solid fa-file-excel report-icon icon-excel"></i>
+                <span>Journal Entry Excel Report</span>
+            </li>
+            
+            <li class="report-item" onclick="printJournalPdf()">
+                <i class="fa-solid fa-file-pdf report-icon icon-pdf"></i>
+                <span>Journal Entry PDF Report</span>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
         localStorage.removeItem('winnolas_editing_id'); 
@@ -107,23 +131,20 @@ document.addEventListener("DOMContentLoaded", function() {
         const localDate = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
         dateInput.value = localDate;
 
-        // Load initial list
         loadSavedTickets();
 
-        // --- SEARCH BAR LOGIC ---
         const searchInput = document.getElementById('filter-search');
         const clearBtn = document.getElementById('btn-search-clear');
 
-        // 1. Listen for typing (Only triggers filter now, doesn't hide X)
+        // 1. Listen for typing
         searchInput.addEventListener('keyup', function() {
             loadSavedTickets(); 
         });
 
         // 2. Click X to Clear
         clearBtn.addEventListener('click', function() {
-            searchInput.value = '';         // Clear text
-            // Note: We do NOT hide the button anymore
-            loadSavedTickets();             // Reset list
+            searchInput.value = '';        
+            loadSavedTickets();            
         });
         
         // 3. Close menus on outside click
@@ -149,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function() {
             loadSavedTickets();
         });
 
-        // Clear Date button (X icon inside picker)
+        // Clear Date button 
         dateClearIcon.addEventListener('click', function() {
             dateInput.value = '';
             loadSavedTickets();
@@ -191,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function() {
         descEl.innerHTML = message; 
         modal.style.display = "flex";
 
-        // Handle Actions (Clone to reset listeners)
+        // Handle Actions 
         const newConfirm = confirmBtn.cloneNode(true);
         const newCancel = cancelBtn.cloneNode(true);
         confirmBtn.parentNode.replaceChild(newConfirm, confirmBtn);
@@ -361,6 +382,46 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
             </div>
         `;
+    }
+
+    // --- SIDEBAR LOGIC ---
+    function openReportsSidebar() {
+        document.getElementById('reportsSidebar').classList.add('open');
+        const overlay = document.getElementById('sidebar-overlay');
+        overlay.style.display = 'block';
+        setTimeout(() => overlay.classList.add('show'), 10);
+    }
+
+    function closeReportsSidebar() {
+        document.getElementById('reportsSidebar').classList.remove('open');
+        const overlay = document.getElementById('sidebar-overlay');
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.style.display = 'none', 300);
+    }
+
+    // --- ACTIONS FOR REPORT ITEMS ---
+    function exportJournalExcel() {
+        closeReportsSidebar(); 
+        showModal({
+            type: 'success', 
+            title: 'Export Successful',
+            message: 'The Journal Entry Excel file has been successfully generated.',
+            onConfirm: () => {
+                console.log('Excel download confirmed.');
+            }
+        });
+    }
+
+    function printJournalPdf() {
+        closeReportsSidebar();
+        showModal({
+            type: 'success',
+            title: 'Report Ready',
+            message: 'The Journal Entry Report is ready. Click <b>Confirm</b> to view it.',
+            onConfirm: () => {
+                console.log('PDF download confirmed.');
+            }
+        });
     }
 </script>
 

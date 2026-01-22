@@ -1099,8 +1099,8 @@ body {
 /* 1. Container Alignment */
 .header-actions-group {
     display: flex;
-    align-items: flex-start; /* Ensure items align to the top */
-    gap: 25px; /* Comfortable gap between buttons */
+    align-items: flex-start; 
+    gap: 25px; 
 }
 
 /* 2. Button Structure (Sizes will inherit from main style.css) */
@@ -1108,28 +1108,22 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Removed fixed width so it uses original size */
 }
 
 /* 3. Label Alignment */
 .action-label {
     text-align: center;
-    line-height: 1.2; /* Ensures "Income Statement" wraps neatly */
-    /* Removed font-size override to use original 0.65rem */
+    line-height: 1.2; 
 }
 
-/* --- ACTIVE STATE (Green Style - Original Sizes) --- */
-
-/* When active, turn text green */
 .action-btn.active {
     color: #2ecc71 !important; 
 }
 
-/* When active, turn circle border and icon green */
 .action-btn.active .action-circle {
     border-color: #2ecc71;
     color: #2ecc71;
-    background-color: #f0fdf4; /* Subtle green background */
+    background-color: #f0fdf4; /
 }
 
 /* --- SUMMARY MODAL STYLES --- */
@@ -1168,4 +1162,656 @@ body {
     align-items: center;
     font-weight: 700;
     color: #555;
+}
+
+/* --- SIDEBAR STYLES --- */
+.reports-sidebar {
+    position: fixed;
+    top: 0;
+    left: -350px; /* Hidden on Left */
+    width: 350px;
+    height: 100%;
+    background-color: #2c3e50; 
+    box-shadow: 2px 0 15px rgba(0,0,0,0.3);
+    z-index: 3000;
+    transition: left 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.reports-sidebar.open { left: 0; }
+
+.sidebar-header {
+    background-color: #233342;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #34495e;
+}
+
+.sidebar-header h3 { margin: 0; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+.sidebar-close { cursor: pointer; color: #ccc; font-size: 1.2rem; transition: 0.2s; }
+.sidebar-close:hover { color: #fff; }
+
+.sidebar-content { padding: 20px; overflow-y: auto; }
+
+.report-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #34495e;
+}
+
+.report-list { list-style: none; padding: 0; margin: 0 0 30px 0; }
+
+.report-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.1s;
+    color: #ecf0f1;
+    font-size: 0.95rem;
+}
+
+.report-item:hover { background-color: #34495e; color: #fff; }
+
+.report-icon { font-size: 1.4rem; width: 25px; text-align: center; }
+.icon-excel { color: #2ecc71; }
+.icon-pdf { color: #e74c3c; }
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 2900;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.sidebar-overlay.show { display: block; opacity: 1; }
+
+/* --- BLUR EFFECT FOR MODALS & SIDEBAR --- */
+.modal-overlay, 
+.custom-modal-overlay, 
+.sidebar-overlay {
+    /* distinct blur */
+    backdrop-filter: blur(5px); 
+    -webkit-backdrop-filter: blur(5px); 
+    background-color: rgba(0, 0, 0, 0.4); 
+}
+
+/* =========================================
+   MOBILE CARD VIEW TRANSFORMATION (Max-Width: 768px)
+   ========================================= */
+@media screen and (max-width: 768px) {
+
+    /* --- 1. GLOBAL & HEADER ADJUSTMENTS --- */
+    body {
+        padding-bottom: 80px; 
+    }
+
+    .global-header {
+        padding: 10px 15px;
+    }
+    
+    .header-left .nav-btn, 
+    .header-right .icon-btn {
+        display: none; 
+    }
+    .header-right .user-profile-circle {
+        display: flex;
+    }
+
+    .page-header-strip {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .header-actions-group {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .action-btn {
+        width: 100%;
+        margin: 0;
+    }
+    
+    .action-label {
+        font-size: 0.6rem; 
+    }
+
+    /* --- 2. HIDE DESKTOP TABLE HEADERS --- */
+    .fi-table-header, 
+    .ticket-header-row,
+    .card-table-header {
+        display: none !important;
+    }
+
+    /* --- 3. FINANCIAL INQUIRY: CARD TRANSFORMATION --- */
+    .fi-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+        margin-bottom: 12px;
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+
+    .fi-acc-name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #444;
+        margin-bottom: 15px;
+        width: 100%;
+        padding-bottom: 10px;
+        border-bottom: 1px dashed #eee; 
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .indent-1, .indent-2, .indent-3, .indent-4 {
+        padding-left: 0 !important;
+    }
+
+    .fi-col-values {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); 
+        width: 100%;
+        margin-right: 0;
+        gap: 5px;
+    }
+
+    .fi-val {
+        width: auto;
+        text-align: center; 
+        display: flex;
+        flex-direction: column; 
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+    .fi-val::before {
+        color: #999;
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        letter-spacing: 0.5px;
+    }
+
+    .fi-col-values .fi-val:nth-child(1)::before { content: "BEGINNING"; }
+    .fi-col-values .fi-val:nth-child(2)::before { content: "DEBIT"; }
+    .fi-col-values .fi-val:nth-child(3)::before { content: "CREDIT"; }
+    .fi-col-values .fi-val:nth-child(4)::before { content: "ENDING"; }
+
+    .fi-col-values .fi-val:nth-child(4) {
+        font-weight: 700;
+        color: #2ecc71; 
+    }
+
+/* --- JOURNAL ENTRY MOBILE TRANSFORMATION --- */
+
+    /* 1. Header Action Buttons (Circular Layout) */
+    .header-actions-group > a {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        text-decoration: none;
+    }
+
+    .header-actions-group .action-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 0;
+        background: transparent; 
+    }
+
+    .header-actions-group .action-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 2px solid #e0e0e0; 
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        transition: all 0.2s;
+    }
+    
+    .header-actions-group .action-btn:active .action-circle {
+        background-color: #f0f0f0;
+        border-color: #ccc;
+    }
+
+    .header-actions-group .action-label {
+        font-size: 0.7rem;
+        color: #666;
+        font-weight: 500;
+        text-transform: capitalize;
+    }
+
+    /* 2. Filter Row Layout (Date | Today | Search) */
+    .card-row-header {
+        display: flex;
+        flex-direction: row; 
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px;
+        gap: 10px;
+        background-color: #fff;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .toolbar-left {
+        display: flex;
+        flex: 1; 
+        gap: 8px;
+        width: auto !important; 
+    }
+
+    .date-input-wrapper {
+        flex: 1;
+        position: relative;
+    }
+
+    .clean-date-input {
+        width: 100%;
+        height: 40px;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .btn-current-day {
+        height: 40px;
+        padding: 0 15px;
+        background-color: #236fa1; /* Match the screenshot blue */
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .toolbar-right {
+        width: auto;
+    }
+
+    .search-ui-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-search {
+        width: 40px;
+        height: 40px;
+        background-color: #236fa1; 
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1rem;
+        padding: 0;
+    }
+
+    .search-input-container {
+        display: none !important;
+    }
+
+    /* 3. Empty State Centering */
+    .empty-state-container {
+        padding: 100px 20px; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .empty-state-text {
+        font-style: italic;
+        color: #aaa;
+        font-size: 1.1rem;
+    }
+
+    /* --- NEW TICKET ENTRY --- */
+    /* 1. Header Action Buttons */
+    .header-actions-group {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    .header-actions-group .action-btn {
+            flex-direction: column;
+            padding: 0;
+            background: transparent;
+        }
+
+    .header-actions-group .action-circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            margin-bottom: 5px;
+            color: #7f8c8d;
+        }
+
+    .header-actions-group .action-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #666;
+        }
+
+    /* 2. Entry List (Card View) */
+    .ticket-header-row { display: none !important; }
+
+    .entry-row {
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        background: #fff;
+        position: relative;
+    }
+
+    /* Account Name Styling */
+    .col-title {
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 700; 
+        color: #333;
+        margin-bottom: 5px;
+        order: 1;
+    }
+    
+    .col-title span {
+        display: block;
+        font-weight: 400;
+        font-size: 0.8rem;
+        color: #888; 
+        margin-top: 2px;
+    }
+
+    /* Values Group  */
+    .col-values-group {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        order: 2;
+    }
+
+    .col-val {
+        font-size: 1rem;
+        color: #444;
+    }
+
+    /* 3. Sub-Total Footer  */
+    .sub-total-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 15px;
+        border-top: 2px solid #f0f0f0;
+    }
+    /* --- NEW TICKET ENTRY --- */
+
+    /* 1. Header Buttons (Circular Layout) */
+    .header-actions-group {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    
+    .header-actions-group .action-btn {
+        flex-direction: column;
+        padding: 0;
+        background: transparent;
+    }
+
+    .header-actions-group .action-circle {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 2px solid #e0e0e0;
+        margin-bottom: 5px;
+        color: #7f8c8d;
+    }
+
+    .header-actions-group .action-label {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: #666;
+    }
+
+    /* 2. Entry Rows */
+    .ticket-header-row { display: none !important; }
+
+    /* The row container */
+    .entry-row {
+        display: flex;
+        flex-direction: column;
+        padding: 15px;
+        border-bottom: 1px solid #f0f0f0;
+        background: #fff;
+        position: relative;
+    }
+
+    /* Account Title & Breadcrumb */
+    .col-title {
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 700; 
+        color: #333;
+        margin-bottom: 5px;
+        order: 1;
+    }
+    
+    .col-title span {
+        display: block;
+        font-weight: 400;
+        font-size: 0.8rem;
+        color: #888; 
+        margin-top: 2px;
+    }
+
+    /* Values */
+    .col-values-group {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        order: 2;
+    }
+
+    .col-val {
+        font-size: 1rem;
+        color: #444;
+    }
+
+    /* 3. Sub-Total Footer  */
+    .sub-total-row {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 15px;
+        border-top: 2px solid #f0f0f0;
+    }
+
+    .sub-total-label {
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .sub-total-values {
+        width: 100%;
+        display: flex;
+        justify-content: space-between; 
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .sub-total-label.unbalanced, .sub-total-values.unbalanced { color: #ff5252; }
+    .sub-total-label.balanced, .sub-total-values.balanced { color: #2ecc71; }
+
+    /* 4. MODAL INPUTS (Dr/Cr Stacking) */
+    .dr-cr-row {
+        display: flex;
+        flex-direction: column; 
+        gap: 15px;
+    }
+
+    .input-group-wrapper {
+        width: 100%;
+        display: flex;
+        align-items: stretch; 
+    }
+
+    /* Input Labels (Dr- / Cr+) */
+    .input-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 15px;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 4px 0 0 4px; 
+        font-size: 0.9rem;
+        min-width: 50px;
+    }
+
+    .label-dr { background-color: #ff5252; } 
+    .label-cr { background-color: #2ecc71; } 
+
+    .amount-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 0 4px 4px 0; 
+        font-size: 1rem;
+        outline: none;
+    }
+
+    /* --- SELECT ACCOUNT MODAL MOBILE --- */
+
+    /* 1. Modal Container Sizing */
+    #accountSelectionModal .modal-content {
+        width: 95% !important; 
+        height: auto;
+        max-height: 90vh; 
+        display: flex;
+        flex-direction: column;
+        padding: 15px !important; 
+    }
+
+    /* 2. Search Area */
+    .account-search-area {
+        display: flex;
+        gap: 8px; 
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .account-search-input {
+        flex: 1; 
+        width: auto; 
+        font-size: 0.9rem;
+    }
+
+    .btn-search-action {
+        width: auto; 
+        padding: 0 15px;
+        white-space: nowrap;
+    }
+
+    /* 3. Account List  */
+    .account-list-container {
+        flex: 1;
+        overflow-y: auto; 
+        min-height: 200px;
+        max-height: 50vh; 
+        border: 1px solid #f0f0f0;
+        border-radius: 4px;
+    }
+
+    .account-item {
+        padding: 12px 10px; 
+    }
+
+    .acc-name {
+        font-size: 0.95rem; 
+    }
+
+    .acc-bread {
+        font-size: 0.75rem; 
+        line-height: 1.2;
+    }
+
+    /* 4. Footer */
+    #accountSelectionModal .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 15px;
+        gap: 10px;
+        flex-wrap: nowrap; 
+    }
+
+    #accountSelectionModal .info-text {
+        font-size: 0.7rem;
+        color: #888;
+        text-align: left;
+        flex: 1; 
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    #accountSelectionModal .close-select-action {
+        width: auto; 
+        padding: 8px 20px;
+        margin: 0;
+    }
+
+    /* --- MODALS & SIDEBAR --- */
+    .modal-content, 
+    .filter-modal-content, 
+    .custom-modal-box {
+        width: 95% !important; 
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    .reports-sidebar {
+        width: 85%; 
+    }
+    
+    .checkbox-row {
+        background: #f9f9f9;
+        padding: 10px;
+        border-radius: 4px;
+    }
 }

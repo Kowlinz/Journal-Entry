@@ -6,201 +6,213 @@
     <title>Winnolas - Financial Inquiry</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* --- FINANCIAL INQUIRY STYLES --- */
-        .header-actions-group { gap: 25px; }
-        .action-btn { color: #7f8c8d; width: auto; cursor: pointer; }
-        .action-btn:hover { color: #555; }
-        .action-circle { border-color: #7f8c8d; background-color: transparent; }
-        .action-btn:hover .action-circle { background-color: #f9f9f9; }
+<style>
+    .global-header {
+        height: 60px; 
+        padding: 0 25px; 
+        display: flex;
+        align-items: center; 
+        justify-content: space-between;
+    }
 
-        .report-card { background-color: #fff; border-top: 1px solid #eee; }
-        .report-sub-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background-color: #fff; border-bottom: 2px solid #f0f0f0; }
-        .report-sub-title { font-size: 1.1rem; font-weight: 700; color: #2c3e50; text-transform: uppercase; }
+    .header-actions-group { gap: 25px; }
+    .action-btn { color: #7f8c8d; width: auto; cursor: pointer; }
+    .action-btn:hover { color: #555; }
+    .action-circle { border-color: #7f8c8d; background-color: transparent; }
+    .action-btn:hover .action-circle { background-color: #f9f9f9; }
+
+    .report-card { background-color: #fff; border-top: 1px solid #eee; }
+    .report-sub-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 30px; background-color: #fff; border-bottom: 2px solid #f0f0f0; }
+    .report-sub-title { font-size: 1.1rem; font-weight: 700; color: #2c3e50; text-transform: uppercase; }
+    
+    .btn-filters { background-color: #333; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .btn-filters:hover { background-color: #555; }
+
+    .fi-table-header { display: flex; justify-content: space-between; padding: 15px 30px; border-bottom: 1px solid #eee; font-weight: 700; color: #333; font-size: 0.9rem; }
+    
+    .fi-row { display: flex; justify-content: space-between; padding: 12px 30px; border-bottom: 1px solid #f9f9f9; align-items: center; }
+    .fi-row:hover { background-color: #f8fbff; }
+
+    .fi-acc-name { font-size: 0.9rem; color: #7e7e7e; font-weight: 500; }
+    .fi-acc-name.header-row { color: #333; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 15px; user-select: none; } 
+    
+    .toggle-icon { transition: transform 0.2s ease; font-size: 0.8rem; color: #555; }
+    .toggle-icon.rotated { transform: rotate(-90deg); }
+
+    .indent-1 { padding-left: 20px; }
+    .indent-2 { padding-left: 40px; }
+    .indent-3 { padding-left: 60px; }
+    .indent-4 { padding-left: 80px; }
+    
+    .fi-col-values { display: flex; gap: 40px; margin-right: 20px; }
+    .fi-val { width: 100px; text-align: right; font-size: 0.9rem; color: #555; }
+    
+    .fi-total-row { display: flex; justify-content: space-between; padding: 20px 30px; background-color: #fff; border-top: 2px solid #eee; margin-top: 10px; }
+    .fi-val-bold { font-weight: 700; color: #333; }
+
+    /* Modal Styles */
+    .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .summary-row label { font-weight: 600; color: #555; width: 30%; }
+    .summary-row input { width: 65%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; text-align: right; font-size: 1rem; color: #333; background-color: #fff; outline: none; }
+    .mini-box { width: 30px; background-color: #f0f0f0; border: 1px solid #ddd; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-weight: 700; color: #555; }
+
+    /* --- LEFT SIDEBAR REPORTS --- */
+    .reports-sidebar {
+        position: fixed; top: 0; left: -350px; width: 350px; height: 100%;
+        background-color: #2c3e50; box-shadow: 2px 0 15px rgba(0,0,0,0.3);
+        z-index: 3000; transition: left 0.3s ease-in-out; display: flex; flex-direction: column;
+    }
+    .reports-sidebar.open { left: 0; }
+    .sidebar-header { background-color: #233342; color: #fff; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #34495e; }
+    .sidebar-header h3 { margin: 0; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .sidebar-close { cursor: pointer; color: #ccc; font-size: 1.2rem; transition: 0.2s; }
+    .sidebar-close:hover { color: #fff; }
+    .sidebar-content { padding: 20px; overflow-y: auto; }
+    .report-section-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #34495e; }
+    .report-list { list-style: none; padding: 0; margin: 0 0 30px 0; }
+    .report-item { display: flex; align-items: center; gap: 15px; padding: 12px 10px; cursor: pointer; border-radius: 6px; transition: background 0.1s; color: #ecf0f1; font-size: 0.95rem; }
+    .report-item:hover { background-color: #34495e; color: #fff; }
+    .report-icon { font-size: 1.4rem; width: 25px; text-align: center; }
+    .icon-excel { color: #2ecc71; } .icon-pdf { color: #e74c3c; }
+    .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 2900; display: none; opacity: 0; transition: opacity 0.3s; }
+    .sidebar-overlay.show { display: block; opacity: 1; }
+
+    /* --- FILTER MODAL STYLES --- */
+    .filter-modal-content { width: 550px; background: #fff; border-radius: 4px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); position: relative; display: flex; flex-direction: column; }
+    .filter-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #eee; }
+    .filter-title { font-weight: 700; font-size: 1rem; color: #333; display: flex; align-items: center; gap: 8px; }
+    .filter-title i { color: #7f8c8d; }
+    .filter-body { padding: 20px; }
+    .filter-group { margin-bottom: 20px; }
+    .filter-label { display: block; font-size: 0.9rem; color: #555; margin-bottom: 8px; font-weight: 500; }
+    .filter-input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem; color: #333; outline: none; }
+    .filter-input:focus { border-color: #004696; }
+    .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .custom-check { width: 18px; height: 18px; border: 2px solid #004696; border-radius: 3px; display: flex; justify-content: center; align-items: center; color: #fff; background-color: #004696; font-size: 0.7rem; cursor: pointer; }
+    .check-label { font-size: 0.95rem; color: #333; cursor: pointer; }
+    .branch-table { width: 100%; border-collapse: collapse; border: 1px solid #eee; }
+    .branch-header-row { background-color: #fafafa; border-bottom: 2px solid #eee; }
+    .branch-header-row th { text-align: left; padding: 10px; font-size: 0.85rem; color: #555; font-weight: 700; }
+    .branch-row td { padding: 10px; border-bottom: 1px solid #eee; font-size: 0.9rem; color: #333; }
+    .branch-row:last-child td { border-bottom: none; }
+    .branch-check { width: 16px; height: 16px; cursor: pointer; accent-color: #004696; }
+    .filter-footer { padding: 15px 20px; border-top: 1px solid #eee; display: flex; justify-content: flex-start; }
+    .btn-apply { background-color: #004696; color: #fff; border: none; padding: 10px 25px; border-radius: 4px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.95rem; }
+    .btn-apply:hover { background-color: #000879; }
+
+    /* =========================================
+       MOBILE RESPONSIVENESS (Max-Width: 768px)
+       ========================================= */
+    @media screen and (max-width: 768px) {
         
-        .btn-filters { background-color: #333; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-        .btn-filters:hover { background-color: #555; }
+        /* 1. GLOBAL & HEADER */
+        .global-header {
+            height: auto; /* Allow auto height on mobile if needed */
+            padding: 10px 15px; /* Tighter padding on mobile */
+        }
 
-        .fi-table-header { display: flex; justify-content: space-between; padding: 15px 30px; border-bottom: 1px solid #eee; font-weight: 700; color: #333; font-size: 0.9rem; }
+        body { padding-bottom: 80px; }
+        .global-header { padding: 10px 15px; }
+        .header-left .nav-btn, .header-right .icon-btn { display: none; }
         
-        .fi-row { display: flex; justify-content: space-between; padding: 12px 30px; border-bottom: 1px solid #f9f9f9; align-items: center; }
-        .fi-row:hover { background-color: #f8fbff; }
-
-        .fi-acc-name { font-size: 0.9rem; color: #7e7e7e; font-weight: 500; }
-        .fi-acc-name.header-row { color: #333; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 15px; user-select: none; } 
-        
-        .toggle-icon { transition: transform 0.2s ease; font-size: 0.8rem; color: #555; }
-        .toggle-icon.rotated { transform: rotate(-90deg); }
-
-        .indent-1 { padding-left: 20px; }
-        .indent-2 { padding-left: 40px; }
-        .indent-3 { padding-left: 60px; }
-        .indent-4 { padding-left: 80px; }
-        
-        .fi-col-values { display: flex; gap: 40px; margin-right: 20px; }
-        .fi-val { width: 100px; text-align: right; font-size: 0.9rem; color: #555; }
-        
-        .fi-total-row { display: flex; justify-content: space-between; padding: 20px 30px; background-color: #fff; border-top: 2px solid #eee; margin-top: 10px; }
-        .fi-val-bold { font-weight: 700; color: #333; }
-
-        /* Modal Styles */
-        .summary-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .summary-row label { font-weight: 600; color: #555; width: 30%; }
-        .summary-row input { width: 65%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; text-align: right; font-size: 1rem; color: #333; background-color: #fff; outline: none; }
-        .mini-box { width: 30px; background-color: #f0f0f0; border: 1px solid #ddd; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-weight: 700; color: #555; }
-
-        /* --- LEFT SIDEBAR REPORTS --- */
-        .reports-sidebar {
-            position: fixed;
-            top: 0;
-            left: -350px;
-            width: 350px;
-            height: 100%;
-            background-color: #2c3e50; 
-            box-shadow: 2px 0 15px rgba(0,0,0,0.3);
-            z-index: 3000;
-            transition: left 0.3s ease-in-out;
-            display: flex;
+        .page-header-strip {
             flex-direction: column;
-        }
-
-        .reports-sidebar.open { left: 0; }
-
-        .sidebar-header {
-            background-color: #233342;
-            color: #fff;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #34495e;
-        }
-        
-        .sidebar-header h3 { margin: 0; font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .sidebar-close { cursor: pointer; color: #ccc; font-size: 1.2rem; transition: 0.2s; }
-        .sidebar-close:hover { color: #fff; }
-
-        .sidebar-content { padding: 20px; overflow-y: auto; }
-
-        .report-section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff; 
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #34495e;
-        }
-
-        .report-list { list-style: none; padding: 0; margin: 0 0 30px 0; }
-
-        .report-item {
-            display: flex;
-            align-items: center;
+            align-items: stretch;
+            height: auto;
+            padding: 15px;
             gap: 15px;
-            padding: 12px 10px;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: background 0.1s;
-            color: #ecf0f1; 
-            font-size: 0.95rem;
         }
 
-        .report-item:hover {
-            background-color: #34495e;
-            color: #fff;
+        /* 2. ACTION BUTTONS GRID */
+        .header-actions-group {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            justify-content: center;
         }
+        .action-btn { width: 100%; margin: 0; min-width: 0; }
+        .action-label { font-size: 0.6rem; }
 
-        .report-icon { font-size: 1.4rem; width: 25px; text-align: center; }
-        .icon-excel { color: #2ecc71; }
-        .icon-pdf { color: #e74c3c; }
+        /* 3. HIDE DESKTOP TABLE HEADERS */
+        .fi-table-header { display: none !important; }
 
-        .sidebar-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 2900;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .sidebar-overlay.show { display: block; opacity: 1; }
-
-        /* --- FILTER MODAL STYLES --- */
-        .filter-modal-content {
-            width: 550px;
-            background: #fff;
-            border-radius: 4px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-            position: relative;
+        /* 4. FINANCIAL INQUIRY CARD TRANSFORMATION */
+        .fi-row {
             display: flex;
             flex-direction: column;
+            align-items: flex-start;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
         }
-        .filter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-        }
-        .filter-title { font-weight: 700; font-size: 1rem; color: #333; display: flex; align-items: center; gap: 8px; }
-        .filter-title i { color: #7f8c8d; }
 
-        .filter-body { padding: 20px; }
-
-        .filter-group { margin-bottom: 20px; }
-        .filter-label { display: block; font-size: 0.9rem; color: #555; margin-bottom: 8px; font-weight: 500; }
-
-        .filter-input {
+        .fi-acc-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #444;
+            margin-bottom: 15px;
             width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.95rem;
-            color: #333;
-            outline: none;
-        }
-        .filter-input:focus { border-color: #004696; }
-
-        /* Custom Checkbox Row */
-        .checkbox-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-        .custom-check {
-            width: 18px; height: 18px;
-            border: 2px solid #004696;
-            border-radius: 3px;
-            display: flex; justify-content: center; align-items: center;
-            color: #fff; background-color: #004696; font-size: 0.7rem;
-            cursor: pointer;
-        }
-        .check-label { font-size: 0.95rem; color: #333; cursor: pointer; }
-
-        /* Branch Table Styling */
-        .branch-table { width: 100%; border-collapse: collapse; border: 1px solid #eee; }
-        .branch-header-row { background-color: #fafafa; border-bottom: 2px solid #eee; }
-        .branch-header-row th { text-align: left; padding: 10px; font-size: 0.85rem; color: #555; font-weight: 700; }
-        .branch-row td { padding: 10px; border-bottom: 1px solid #eee; font-size: 0.9rem; color: #333; }
-        .branch-row:last-child td { border-bottom: none; }
-        .branch-check { width: 16px; height: 16px; cursor: pointer; accent-color: #004696; }
-
-        .filter-footer {
-            padding: 15px 20px;
-            border-top: 1px solid #eee;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
             display: flex;
-            justify-content: flex-start;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Reset indentation so mobile text is aligned */
+        .indent-1, .indent-2, .indent-3, .indent-4 { padding-left: 0 !important; }
+
+        /* Value Grid: 1 Row, 4 Columns */
+        .fi-col-values {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            width: 100%;
+            margin-right: 0;
+            gap: 5px;
         }
 
-        .btn-apply {
-            background-color: #004696;
-            color: #fff;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 4px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex; align-items: center; gap: 8px;
-            font-size: 0.95rem;
+        .fi-val {
+            width: auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column; /* Label top, Value bottom */
+            font-size: 0.9rem;
+            color: #333;
         }
-        .btn-apply:hover { background-color: #000879; }
-    </style>
+
+        /* Labels generated via CSS */
+        .fi-val::before {
+            color: #999;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .fi-col-values .fi-val:nth-child(1)::before { content: "BEGINNING"; }
+        .fi-col-values .fi-val:nth-child(2)::before { content: "DEBIT"; }
+        .fi-col-values .fi-val:nth-child(3)::before { content: "CREDIT"; }
+        .fi-col-values .fi-val:nth-child(4)::before { content: "ENDING"; }
+        
+        /* Green Ending Value */
+        .fi-col-values .fi-val:nth-child(4) {
+            font-weight: 700;
+            color: #2ecc71; 
+        }
+
+        /* 5. MODALS & SIDEBAR ADJUSTMENTS */
+        .modal-content, .filter-modal-content { width: 95% !important; max-height: 85vh; overflow-y: auto; }
+        .reports-sidebar { width: 85%; }
+        
+        /* Filter Modal tweaks */
+        .filter-footer { position: sticky; bottom: 0; background: #fff; z-index: 10; }
+        .checkbox-row { background: #f9f9f9; padding: 10px; border-radius: 4px; }
+    }
+</style>
 </head>
 <body>
 
@@ -221,17 +233,40 @@
 </header>
 
 <div class="page-header-strip">
-    <h1 class="page-title" id="main-page-title">FINANCIAL INQUIRY | 2026-01-19</h1>
+    <h1 class="page-title" id="main-page-title">FINANCIAL INQUIRY - 2026-01-19</h1>
+    
     <div class="header-actions-group">
         <div class="action-btn" onclick="openReportsSidebar()">
             <div class="action-circle"><i class="fa-solid fa-file-lines"></i></div>
             <span class="action-label">Report</span>
         </div>
-        <div class="action-btn" onclick="switchView('trial')"><div class="action-circle"><i class="fa-solid fa-scale-balanced"></i></div><span class="action-label">Trial<br>Balance</span></div>
-        <div class="action-btn" onclick="switchView('income')"><div class="action-circle"><i class="fa-solid fa-file-invoice-dollar"></i></div><span class="action-label">Income<br>Statement</span></div>
-        <div class="action-btn" onclick="switchView('balance')"><div class="action-circle"><i class="fa-solid fa-building-columns"></i></div><span class="action-label">Balance<br>Sheet</span></div>
-        <div class="action-btn" onclick="showSummaryModal()"><div class="action-circle"><i class="fa-solid fa-calculator"></i></div><span class="action-label">Summary</span></div>
-        <a href="index.html" style="text-decoration: none;"><div class="action-btn close-btn"><div class="action-circle"><i class="fa-solid fa-xmark"></i></div><span class="action-label">Close</span></div></a>
+        
+        <div class="action-btn" onclick="switchView('trial')">
+            <div class="action-circle"><i class="fa-solid fa-scale-balanced"></i></div>
+            <span class="action-label">Trial<br>Balance</span>
+        </div>
+
+        <div class="action-btn" onclick="switchView('income')">
+            <div class="action-circle"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+            <span class="action-label">Income<br>Statement</span>
+        </div>
+
+        <div class="action-btn" onclick="switchView('balance')">
+            <div class="action-circle"><i class="fa-solid fa-building-columns"></i></div>
+            <span class="action-label">Balance<br>Sheet</span>
+        </div>
+
+        <div class="action-btn" onclick="showSummaryModal()">
+            <div class="action-circle"><i class="fa-solid fa-list"></i></div>
+            <span class="action-label">Summarize</span>
+        </div>
+
+        <a href="index.html" style="text-decoration: none;">
+            <div class="action-btn close-btn">
+                <div class="action-circle"><i class="fa-solid fa-xmark"></i></div>
+                <span class="action-label">Close</span>
+            </div>
+        </a>
     </div>
 </div>
 
@@ -419,7 +454,7 @@
                 <i class="fa-solid fa-file-excel report-icon icon-excel"></i><span>Balance Sheet</span>
             </li>
         </ul>
-        <div class="report-section-title">Report</div>
+        <div class="report-section-title">PDF Report</div>
         <ul class="report-list">
             <li class="report-item" onclick="printPdf('Trial Balance')">
                 <i class="fa-solid fa-file-pdf report-icon icon-pdf"></i><span>Trial Balance Report</span>
@@ -621,7 +656,7 @@
         window.URL.revokeObjectURL(url);
     }
 
-    // --- PDF PRINT (Broken strings fixed) ---
+    // --- PDF PRINT ---
     function printPdf(reportType) {
         let rows = getFilteredData(reportType);
         const printWindow = window.open('', '_blank');
@@ -632,7 +667,6 @@
         let content = '<' + '/head><body>';
         content += '<div class="header-strip"><div>Winnolas</div><div>Generated Date: 2026-01-19 03:03 PM</div></div>';
         content += '<div class="main-title">' + reportType + ' Report</div>';
-        // content += '<div class="sub-details">Ronnie Rickets School of Backflips Inc. | rrsob_admin@codexdevops.com<br>Date: 2025-01-17</div>';
         content += '<table><thead><tr><th>Account Title</th><th>Beginning</th><th>Debit</th><th>Credit</th><th>Ending</th></tr></thead><tbody>';
         
         let rowsHtml = '';

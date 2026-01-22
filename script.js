@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const editId = localStorage.getItem('winnolas_editing_id');
     if (editId) loadTicketForEditing(editId);
 
-    // --- NEW: MODAL HELPER FUNCTION ---
     function showModal({ type, title, message, onConfirm }) {
         const modal = document.getElementById('globalModal');
         if (!modal) return;
@@ -88,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- REPLACED ALERTS WITH MODALS ---
     function loadTicketForEditing(id) {
         const allTickets = JSON.parse(localStorage.getItem('winnolas_tickets')) || [];
         const ticket = allTickets.find(t => t.id === id);
@@ -115,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateFooterTotals();
     }
 
-    // (Modal Open/Close Logic)
     if(openTicketBtn) openTicketBtn.addEventListener("click", () => { resetModalInputs(); ticketModal.style.display = "flex"; });
     const closeTicketModal = () => { ticketModal.style.display = "none"; resetModalInputs(); };
     if(closeTicketX) closeTicketX.addEventListener("click", closeTicketModal);
